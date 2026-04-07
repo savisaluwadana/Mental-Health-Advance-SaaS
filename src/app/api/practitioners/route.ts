@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   await connectDB()
 
   const query: Record<string, unknown> = {
-    role: role ? role : { $in: ['psychologist', 'psychiatrist'] },
+    role: role ? role : { $in: ['psychologist', 'psychiatrist', 'counsellor'] },
   }
 
   if (province) query.province = province

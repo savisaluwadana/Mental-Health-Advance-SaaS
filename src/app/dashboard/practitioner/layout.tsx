@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: 'Practitioner Dashboard' }
 
 export default async function PractitionerDashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
-  if (!session || (session.user.role !== 'psychologist' && session.user.role !== 'psychiatrist')) {
+  if (!session || (session.user.role !== 'psychologist' && session.user.role !== 'psychiatrist' && session.user.role !== 'counsellor')) {
     redirect('/login')
   }
 

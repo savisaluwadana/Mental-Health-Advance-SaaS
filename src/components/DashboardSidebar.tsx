@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import { ThemeToggle } from './ThemeToggle'
+import { LanguageSwitcher } from './GoogleTranslate'
 
 interface NavItem {
   href: string
@@ -19,7 +20,7 @@ function NavIcon({ d }: { d: string }) {
   )
 }
 
-export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | 'psychiatrist' | 'admin' }) {
+export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | 'psychiatrist' | 'counsellor' | 'admin' }) {
   const pathname = usePathname()
   const { data: session } = useSession()
 
@@ -96,6 +97,7 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
           </div>
           <ThemeToggle size="sm" />
         </div>
+        <LanguageSwitcher variant="sidebar" />
         <Link href="/" className="sidebar-link w-full text-muted-foreground hover:text-foreground">
           <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

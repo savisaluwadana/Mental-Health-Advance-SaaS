@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   }
 
   const role = session.user.role
-  if (role === 'psychologist' || role === 'psychiatrist') {
+  if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor') {
     if (clientId === session.user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }

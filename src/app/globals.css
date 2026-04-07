@@ -175,3 +175,42 @@
 .no-transition {
   transition: none !important;
 }
+
+/* ============================================
+   Google Translate – Definitive Layout Fix
+   ============================================ */
+
+/* Hide the injected banner iframe — target all known selectors */
+.goog-te-banner-frame,
+.skiptranslate > iframe,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-te-ftab-float,
+.goog-te-menu-frame {
+  display: none !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Block body position shift Google applies */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* Hide Google branding in our hidden widget container */
+#gt-hidden-element .goog-te-gadget > span,
+#gt-hidden-element .goog-te-gadget > a {
+  display: none !important;
+}
+
+/* Style the hidden select to remain zero-size */
+#gt-hidden-element {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+

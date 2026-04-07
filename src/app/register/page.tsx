@@ -16,7 +16,7 @@ export default function RegisterPage() {
     name: '',
     email: '',
     password: '',
-    role: 'client' as 'client' | 'psychologist' | 'psychiatrist',
+    role: 'client' as 'client' | 'psychologist' | 'psychiatrist' | 'counsellor',
     phone: '',
     province: '',
     languages: [] as string[],
@@ -25,7 +25,7 @@ export default function RegisterPage() {
     sessionTypes: [] as ('online' | 'physical')[],
   })
 
-  const isPractitioner = form.role === 'psychologist' || form.role === 'psychiatrist'
+  const isPractitioner = form.role === 'psychologist' || form.role === 'psychiatrist' || form.role === 'counsellor'
 
   const toggleLanguage = (lang: string) => {
     setForm((f) => ({
@@ -104,7 +104,7 @@ export default function RegisterPage() {
             <div>
               <label className="label block mb-2">I am a…</label>
               <div className="grid grid-cols-3 gap-2">
-                {(['client', 'psychologist', 'psychiatrist'] as const).map((r) => (
+                {(['client', 'psychologist', 'psychiatrist', 'counsellor'] as const).map((r) => (
                   <button
                     key={r}
                     type="button"

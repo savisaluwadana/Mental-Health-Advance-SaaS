@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import { ThemeToggle } from './ThemeToggle'
+import { LanguageSwitcher } from './GoogleTranslate'
 import { useState } from 'react'
 
 export function PublicNavbar() {
@@ -57,6 +58,7 @@ export function PublicNavbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            <LanguageSwitcher variant="navbar" />
             <ThemeToggle size="sm" />
             {session ? (
               <Link href={getDashboardHref()} className="btn-primary text-xs px-3 py-2">

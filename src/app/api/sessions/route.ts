@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
   let query: Record<string, string> = {}
   if (role === 'client') query.clientId = id
-  else if (role === 'psychologist' || role === 'psychiatrist') query.practitionerId = id
+  else if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor') query.practitionerId = id
 
   const sessions = await SessionModel.find(query)
     .populate('clientId', 'name email avatar')

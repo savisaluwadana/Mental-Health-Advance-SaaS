@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const role = session.user.role
-  if (role !== 'psychologist' && role !== 'psychiatrist') {
+  if (role !== 'psychologist' && role !== 'psychiatrist' && role !== 'counsellor') {
     return NextResponse.json({ error: 'Only practitioners can create goals' }, { status: 403 })
   }
 

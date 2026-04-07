@@ -4,7 +4,7 @@ export interface IUser extends Document {
   name: string
   email: string
   hashedPassword: string
-  role: 'client' | 'psychologist' | 'psychiatrist' | 'admin'
+  role: 'client' | 'psychologist' | 'psychiatrist' | 'counsellor' | 'admin'
   avatar?: string
   phone?: string
   slmcRegNo?: string
@@ -26,7 +26,7 @@ const UserSchema = new Schema<IUser>(
     hashedPassword: { type: String, required: true },
     role: {
       type: String,
-      enum: ['client', 'psychologist', 'psychiatrist', 'admin'],
+      enum: ['client', 'psychologist', 'psychiatrist', 'counsellor', 'admin'],
       required: true,
     },
     avatar: String,

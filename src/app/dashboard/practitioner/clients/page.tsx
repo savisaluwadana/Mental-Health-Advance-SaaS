@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 interface ClientInfo { _id: string; name: string; email: string; avatar?: string }
 interface Session { _id: string; clientId: ClientInfo; scheduledAt: string; status: string; type: string }
@@ -36,17 +37,24 @@ export default function MyClientsPage() {
           clients.length === 0 ? (
             <p className="col-span-full text-center text-muted-foreground py-16">No clients found</p>
           ) : clients.map((c) => (
-            <div key={c._id} className="card p-5 hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-lg font-bold">
-                  {c.name[0]}
+            <Link href={`/dashboard/practitioner/clients/${c._id}`} key={c._id} className="card p-5 hover:shadow-md hover:border-brand-300 transition-all block group">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-lg font-bold group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                    {c.name[0]}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-lg truncate">{c.name}</p>
+                    <p className="text-sm text-muted-foreground truncate">{c.email}</p>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-lg truncate">{c.name}</p>
-                  <p className="text-sm text-muted-foreground truncate">{c.email}</p>
+                <div className="text-muted-foreground group-hover:text-brand-600 transition-colors mt-3">
+                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>

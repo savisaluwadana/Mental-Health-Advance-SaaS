@@ -10,7 +10,7 @@ export default withAuth(
     if (token && (pathname === '/login' || pathname === '/register')) {
       const role = token.role as string
       if (role === 'client') return NextResponse.redirect(new URL('/dashboard/client', req.url))
-      if (role === 'psychologist' || role === 'psychiatrist')
+      if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor')
         return NextResponse.redirect(new URL('/dashboard/practitioner', req.url))
       if (role === 'admin') return NextResponse.redirect(new URL('/dashboard/admin', req.url))
     }
@@ -24,7 +24,8 @@ export default withAuth(
     if (
       pathname.startsWith('/dashboard/practitioner') &&
       token?.role !== 'psychologist' &&
-      token?.role !== 'psychiatrist'
+      token?.role !== 'psychiatrist' &&
+      token?.role !== 'counsellor'
     ) {
       return NextResponse.redirect(new URL('/login', req.url))
     }
