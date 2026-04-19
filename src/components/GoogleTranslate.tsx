@@ -15,9 +15,38 @@ const LANGUAGES = [
   { code: 'ta', label: 'Tamil', native: 'தமிழ்', flag: '🇱🇰' },
 ]
 
-// Programmatically trigger Google Translate to change language
+const LS_KEY = 'mindbridge_lang'
+
+// ── Reset to English ──────────────────────────────────────────────────────────
+// The official way is restoreOriginalContent(). As a fallback we clear the
+// `googtrans` cookie that Google Translate uses to remember the active language
+// and reload the page.
+function resetToEnglish() {
+  try {
+    const el = window.google?.translate?.TranslateElement?.getInstance?.()
+    if (el && typeof el.restoreOriginalContent === 'function') {
+      el.restoreOriginalContent()
+      return
+    }
+  } catch (_) { /* ignore */ }
+
+  // Fallback: wipe the cookie Google Translate relies on and hard-reload
+  const clearCookie = (name: string) => {
+    const paths = ['/', window.location.pathname]
+    const domains = [window.location.hostname, '.' + window.location.hostname, '']
+    for (const path of paths) {
+      for (const domain of domains) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; domain=${domain};`
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`
+      }
+    }
+  }
+  clearCookie('googtrans')
+  window.location.reload()
+}
+
+// ── Switch to a non-English language ─────────────────────────────────────────
 function triggerTranslation(langCode: string) {
-  // Find the hidden select element Google Translate injects
   const selectEl = document.querySelector<HTMLSelectElement>('.goog-te-combo')
   if (selectEl) {
     selectEl.value = langCode
@@ -36,21 +65,18 @@ function GlobeIcon() {
   )
 }
 
-// Initialize Google Translate once globally — hidden from user
+// ── Initialize Google Translate once globally — hidden from user ──────────────
 export function GoogleTranslateInit() {
   useEffect(() => {
-    // ── Nuclear option: intercept the body.style.top setter ──────────────────
-    // Google Translate sets body.style.top = '40px' via JS. We block it by
-    // redefining the property descriptor so the setter does nothing.
+    // Block body.style.top setter (Google Translate injects a 40px shift)
     try {
       const bodyStyle = document.body.style
       Object.defineProperty(bodyStyle, 'top', {
         get: () => '0px',
-        set: (_val: string) => { /* no-op — block Google's layout shift */ },
+        set: (_val: string) => { /* no-op */ },
         configurable: true,
       })
     } catch (_) {
-      // Fallback: use MutationObserver if defineProperty fails
       const obs = new MutationObserver(() => {
         if (document.body.style.top && document.body.style.top !== '0px') {
           document.body.setAttribute('style',
@@ -60,25 +86,30 @@ export function GoogleTranslateInit() {
       obs.observe(document.body, { attributes: true, attributeFilter: ['style'] })
     }
 
-    // ── Hide Google Translate banner frame whenever it appears ────────────────
+    // Hide Google Translate banner frame whenever it appears
     const hideBanner = () => {
       const banner = document.querySelector<HTMLElement>('#goog-gt-tt, .goog-te-banner-frame, .skiptranslate iframe')
       if (banner) {
         banner.style.cssText = 'display:none!important;height:0!important;'
       }
     }
-
     const domObs = new MutationObserver(hideBanner)
     domObs.observe(document.documentElement, { childList: true, subtree: true })
     hideBanner()
 
-    // ── Boot the translate widget ─────────────────────────────────────────────
+    // Boot the widget
     window.googleTranslateElementInit = () => {
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
           { pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false },
           'gt-hidden-element'
         )
+        // Restore previously-chosen language (survives Next.js client navigations)
+        const saved = localStorage.getItem(LS_KEY)
+        if (saved && saved !== '') {
+          // Small delay to ensure widget is fully ready
+          setTimeout(() => triggerTranslation(saved), 300)
+        }
       }
     }
 
@@ -93,14 +124,20 @@ export function GoogleTranslateInit() {
     return () => domObs.disconnect()
   }, [])
 
-  // Hidden, invisible container where Google Translate widget mounts
   return <div id="gt-hidden-element" className="hidden absolute w-0 h-0 overflow-hidden" aria-hidden="true" />
 }
 
-// The visible language switcher UI
+// ── Visible language switcher UI ──────────────────────────────────────────────
 export function LanguageSwitcher({ variant = 'navbar' }: { variant?: 'navbar' | 'sidebar' }) {
   const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState(LANGUAGES[0])
+  const [current, setCurrent] = useState(() => {
+    // Hydrate from localStorage if available
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(LS_KEY)
+      return LANGUAGES.find(l => l.code === saved) ?? LANGUAGES[0]
+    }
+    return LANGUAGES[0]
+  })
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -116,8 +153,20 @@ export function LanguageSwitcher({ variant = 'navbar' }: { variant?: 'navbar' | 
   const handleSelect = (lang: typeof LANGUAGES[0]) => {
     setOpen(false)
     setCurrent(lang)
-    // Small delay so the widget is ready if the page just loaded
-    setTimeout(() => triggerTranslation(lang.code), 100)
+    localStorage.setItem(LS_KEY, lang.code)
+
+    if (lang.code === '') {
+      // ── Reset back to English ──
+      resetToEnglish()
+    } else {
+      // ── Switch to Tamil / Sinhala ──
+      // Retry until the widget is ready (can take a moment on first load)
+      const attempt = (retries: number) => {
+        const ok = triggerTranslation(lang.code)
+        if (!ok && retries > 0) setTimeout(() => attempt(retries - 1), 200)
+      }
+      attempt(10)
+    }
   }
 
   const DropdownItems = () => (

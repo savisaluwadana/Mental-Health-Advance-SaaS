@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth'
 import { SessionProvider } from '@/components/SessionProvider'
 import { Toaster } from 'sonner'
 import { GoogleTranslateInit } from '@/components/GoogleTranslate'
+import { LanguagePickerModal } from '@/components/LanguagePickerModal'
 import { authOptions } from '@/lib/auth'
 import './globals.css'
 
@@ -57,6 +58,7 @@ export default async function RootLayout({
               }}
             />
             <GoogleTranslateInit />
+            <LanguagePickerModal />
           </SessionProvider>
         </ThemeProvider>
       </body>
