@@ -85,7 +85,7 @@ function StatItem({ stat }: { stat: Stat }) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-100 text-brand-700">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
         {stat.icon}
       </div>
       <div>

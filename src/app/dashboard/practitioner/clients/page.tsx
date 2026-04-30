@@ -40,7 +40,7 @@ export default function MyClientsPage() {
             <Link href={`/dashboard/practitioner/clients/${c._id}`} key={c._id} className="card p-5 hover:shadow-md hover:border-brand-300 transition-all block group">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-lg font-bold group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-lg font-bold transition-colors group-hover:bg-brand-600 group-hover:text-white dark:bg-brand-900/30 dark:text-brand-300 dark:group-hover:bg-brand-700 dark:group-hover:text-white">
                     {c.name[0]}
                   </div>
                   <div className="min-w-0 flex-1">

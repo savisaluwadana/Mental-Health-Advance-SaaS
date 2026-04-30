@@ -7,15 +7,13 @@ export const metadata: Metadata = {
 }
 
 const ARTICLES = [
-  { category: 'Anxiety', title: 'Understanding Anxiety Disorders', desc: 'Learn to identify anxiety symptoms and evidence-based coping strategies.', marker: 'AN' },
-  { category: 'Depression', title: 'Living with Depression', desc: 'What depression really feels like and how treatment can help.', marker: 'DP' },
-  { category: 'Relationships', title: 'Healthy Communication in Relationships', desc: 'Building stronger bonds through empathy and active listening.', marker: 'RL' },
-  { category: 'Work Stress', title: 'Preventing Burnout', desc: 'Recognizing early warning signs and practical strategies to recover.', marker: 'WS' },
-  { category: 'Anxiety', title: 'Mindfulness for Everyday Anxiety', desc: 'Simple 5-minute practices you can do anywhere to reduce stress.', marker: 'MF' },
-  { category: 'Depression', title: 'When to Seek Professional Help', desc: 'Signs that it\'s time to talk to a licensed therapist or psychiatrist.', marker: 'CH' },
+  { category: 'Anxiety', title: 'Understanding Anxiety Disorders', desc: 'Learn to identify anxiety symptoms and evidence-based coping strategies.', marker: 'AN', readTime: '6 min read' },
+  { category: 'Depression', title: 'Living with Depression', desc: 'What depression really feels like and how treatment can help.', marker: 'DP', readTime: '7 min read' },
+  { category: 'Relationships', title: 'Healthy Communication in Relationships', desc: 'Building stronger bonds through empathy and active listening.', marker: 'RL', readTime: '5 min read' },
+  { category: 'Work Stress', title: 'Preventing Burnout', desc: 'Recognizing early warning signs and practical strategies to recover.', marker: 'WS', readTime: '6 min read' },
+  { category: 'Anxiety', title: 'Mindfulness for Everyday Anxiety', desc: 'Simple 5-minute practices you can do anywhere to reduce stress.', marker: 'MF', readTime: '4 min read' },
+  { category: 'Depression', title: 'When to Seek Professional Help', desc: 'Signs that it\'s time to talk to a licensed therapist or psychiatrist.', marker: 'CH', readTime: '5 min read' },
 ]
-
-const CATEGORIES = ['All', 'Anxiety', 'Depression', 'Relationships', 'Work Stress']
 
 export default function ResourcesPage() {
   return (
@@ -57,9 +55,17 @@ export default function ResourcesPage() {
             </div>
           </section>
 
-          {/* Articles */}
-          <section>
-            <h2 className="text-2xl font-bold mb-6">Articles & Guides</h2>
+          {/* Blog */}
+          <section id="blog">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-brand-700 dark:text-brand-300">Blog</p>
+                <h2 className="text-2xl font-bold">Articles & Guides</h2>
+              </div>
+              <p className="max-w-xl text-sm text-muted-foreground">
+                Practical reading for clients, families, and practitioners. Use these articles as educational support, not as a replacement for professional care.
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {ARTICLES.map((article, i) => (
                 <div key={i} className="card p-5 hover:shadow-md transition-shadow group cursor-pointer">
@@ -73,7 +79,10 @@ export default function ResourcesPage() {
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground leading-relaxed">{article.desc}</p>
-                  <p className="text-xs text-brand-600 mt-3 font-medium">Read article →</p>
+                  <div className="mt-4 flex items-center justify-between gap-3 text-xs">
+                    <span className="text-muted-foreground">{article.readTime}</span>
+                    <span className="font-medium text-brand-600 dark:text-brand-300">Read article →</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -108,94 +117,109 @@ export default function ResourcesPage() {
           {/* Documentation */}
           <section id="documentation" className="mt-16">
             <div className="rounded-2xl border border-brand-100 bg-brand-50/50 p-6 sm:p-8 dark:border-brand-900/30 dark:bg-brand-950/20">
-              <h2 className="text-2xl font-bold">Platform Documentation</h2>
+              <h2 className="text-2xl font-bold">How to Use MindBridge SL</h2>
               <p className="text-muted-foreground mt-2 max-w-2xl">
-                A technical overview of MindBridge SL — architecture, security, and the core modules powering care.
+                Simple guidance for clients, practitioners, and families using the platform for mental health support.
               </p>
             </div>
 
             <div className="mt-8 prose dark:prose-invert prose-brand max-w-none">
-              <h3>1. Architecture Overview</h3>
+              <h3>1. Create Your Account</h3>
               <p>
-                The platform is built on modern web technologies ensuring speed, scalability, and real-time responsiveness across all 9 provinces in Sri Lanka.
+                Start by creating an account and choosing the role that matches how you will use MindBridge SL.
               </p>
               <ul>
-                <li><strong>Frontend &amp; Backend:</strong> Next.js 14 (App Router)</li>
-                <li><strong>Database:</strong> MongoDB (Mongoose)</li>
-                <li><strong>Real-time Layer:</strong> Custom Node.js server with Socket.io</li>
-                <li><strong>Authentication:</strong> NextAuth.js (JWT, role-based)</li>
-                <li><strong>PDF Generation:</strong> @react-pdf/renderer (Server-side streaming)</li>
+                <li><strong>Clients</strong> can book sessions, message practitioners, track mood, and follow goals.</li>
+                <li><strong>Psychologists</strong> can manage clients, sessions, messages, and private notes.</li>
+                <li><strong>Psychiatrists</strong> can do everything psychologists can do and issue prescriptions when appropriate.</li>
               </ul>
 
               <hr className="my-8" />
 
-              <h3>2. Role-Based Access Control (RBAC)</h3>
+              <h3>2. Find and Book a Therapist</h3>
               <p>
-                The system operates on three primary roles, rigidly enforced by NextAuth JWT claims and Next.js Middleware:
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 not-prose">
-                <div className="card p-5">
-                  <h4 className="font-bold text-lg mb-2">Client</h4>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>• Books sessions</li>
-                    <li>• Tracks daily mood &amp; goals</li>
-                    <li>• Messages practitioners</li>
-                  </ul>
-                </div>
-                <div className="card p-5 border-brand-200 dark:border-brand-800">
-                  <h4 className="font-bold text-lg mb-2">Psychologist</h4>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>• Manages client roster</li>
-                    <li>• Writes private session notes</li>
-                    <li>• Cannot issue prescriptions</li>
-                  </ul>
-                </div>
-                <div className="card p-5 border-brand-500 bg-brand-50 dark:bg-brand-900/10">
-                  <h4 className="font-bold text-lg mb-2">Psychiatrist</h4>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>• All psychologist permissions</li>
-                    <li>• Requires SLMC Reg No.</li>
-                    <li>• <strong>Can issue digital prescriptions</strong></li>
-                  </ul>
-                </div>
-              </div>
-
-              <hr className="my-8" />
-
-              <h3>3. Real-Time Secure Messaging &amp; Safety Alerts</h3>
-              <p>
-                Given the sensitive nature of mental health text-based therapy, the messaging infrastructure prioritizes immediate safety intervention.
-              </p>
-              <ul>
-                <li><strong>Socket.io Integration:</strong> Ensures instant delivery without page reloads.</li>
-                <li><strong>Keyword Engine:</strong> Every message is scanned server-side against a configurable list of high-risk keywords.</li>
-                <li><strong>Instant Practitioner Alerts:</strong> If a keyword triggers, an urgent alert is pushed to the practitioner's dashboard.</li>
-                <li><strong>Rate Limiting:</strong> Spam protection limits messages and alert notifications to prevent fatigue.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>4. Legal &amp; Compliance: Digital Prescriptions</h3>
-              <p>
-                The Prescription Module is explicitly locked to the <code>psychiatrist</code> role. It implements a zero-persistence architecture for maximum privacy.
-              </p>
-              <ul>
-                <li><strong>Signatures &amp; Seals:</strong> Stored as Base64 strings in MongoDB.</li>
-                <li><strong>No Cloud Storage:</strong> External file storage is avoided in V1 to reduce data footprint.</li>
-                <li><strong>On-Demand PDF Streaming:</strong> Generated in memory and streamed with <code>Cache-Control: no-store</code>.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>5. Client Progress &amp; Analytics</h3>
-              <p>
-                Clients have access to a dedicated Progress Dashboard combining three metrics:
+                Use the therapist directory to find a practitioner who fits your needs.
               </p>
               <ol>
-                <li><strong>Mood Tracking:</strong> One-per-day mood scores plotted on 30/90-day trendlines.</li>
-                <li><strong>Goal Completion:</strong> Weekly goals tracked via a completion rate visualizer.</li>
-                <li><strong>Session History:</strong> Complete log of scheduling metadata.</li>
+                <li>Open <strong>Find a Therapist</strong>.</li>
+                <li>Filter by province, language, session type, specialty, or practitioner type.</li>
+                <li>Select a practitioner and choose a date, time, and online or in-person session.</li>
+                <li>Submit the booking request and wait for confirmation from the practitioner.</li>
               </ol>
+
+              <hr className="my-8" />
+
+              <h3>3. Join Online Sessions</h3>
+              <p>
+                Online sessions appear in your dashboard after they are booked. When the practitioner confirms the session, they can add the meeting link.
+              </p>
+              <ul>
+                <li>The <strong>Join</strong> button becomes available close to the session start time.</li>
+                <li>You can join from your browser if the meeting provider allows it.</li>
+                <li>If you cannot see a link, message your practitioner or check whether the session is still pending.</li>
+              </ul>
+
+              <hr className="my-8" />
+
+              <h3>4. Message Your Practitioner</h3>
+              <p>
+                Use Messages for appointment questions, follow-ups, and care-related updates between sessions. Messages are intended for ongoing support, not emergency response.
+              </p>
+              <ul>
+                <li>Open your dashboard and go to <strong>Messages</strong>.</li>
+                <li>Write your message and send it to your assigned practitioner.</li>
+                <li>For immediate danger or crisis support, use the crisis helplines listed above.</li>
+              </ul>
+
+              <hr className="my-8" />
+
+              <h3>5. Track Mood, Goals, and Progress</h3>
+              <p>
+                Your dashboard helps you keep a simple record of how you are doing over time.
+              </p>
+              <ul>
+                <li><strong>Mood Tracker:</strong> Log one mood score per day, add emotion tags, and optionally share it with your practitioner.</li>
+                <li><strong>Goals:</strong> Review goals set by your practitioner and submit weekly check-ins.</li>
+                <li><strong>Progress:</strong> View your mood history, goal completion, and session activity in one place.</li>
+              </ul>
+
+              <hr className="my-8" />
+
+              <h3>6. Prescriptions</h3>
+              <p>
+                Prescriptions can only be issued by psychiatrists. If your psychiatrist creates one for you, you can download the PDF from the prescription area when it is available.
+              </p>
+              <p>
+                Always follow your psychiatrist's instructions and speak to a registered pharmacist or doctor if anything is unclear.
+              </p>
+
+              <hr className="my-8" />
+
+              <h3>7. Practitioner Workflow</h3>
+              <p>
+                Practitioners use their dashboard to manage care in one place.
+              </p>
+              <ul>
+                <li><strong>Schedule:</strong> Review pending bookings, confirm sessions, and manage upcoming appointments.</li>
+                <li><strong>Online Sessions:</strong> Add Google Meet or Microsoft Teams links for confirmed online sessions.</li>
+                <li><strong>Clients:</strong> View assigned clients and their care activity.</li>
+                <li><strong>Notes:</strong> Keep private session notes for clinical reference.</li>
+                <li><strong>Prescriptions:</strong> Psychiatrists can create and download digital prescriptions.</li>
+              </ul>
+
+              <hr className="my-8" />
+
+              <h3>8. Admin Dashboard Operations</h3>
+              <p>
+                Admins use the dashboard to keep the platform organized, moderated, and ready for safe use.
+              </p>
+              <ul>
+                <li><strong>Overview:</strong> Review total users, pending practitioner validations, and active safety keywords.</li>
+                <li><strong>User Management:</strong> Search users, filter by role, approve or revoke practitioner verification, and remove accounts when required.</li>
+                <li><strong>Practitioner Verification:</strong> Check practitioner details such as role and SLMC number before approving access.</li>
+                <li><strong>Safety Engine:</strong> Add, review, and remove high-risk trigger phrases used to flag urgent messages.</li>
+                <li><strong>Operational Review:</strong> Use the dashboard regularly to monitor registrations and keep care access trustworthy.</li>
+              </ul>
             </div>
           </section>
         </div>

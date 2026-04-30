@@ -6,11 +6,15 @@ import { format } from 'date-fns'
 
 interface User { _id: string; name: string; email: string; role: string; slmcRegNo?: string; verified?: boolean; createdAt: string }
 
+const ROLE_OPTIONS = ['client', 'psychologist', 'psychiatrist', 'counsellor', 'admin']
+
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({ role: '', search: '' })
   const [actioning, setActioning] = useState<string | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState({ name: '', role: 'client' })
 
   const fetchUsers = () => {
     setLoading(true)
@@ -40,6 +44,34 @@ export default function AdminUsersPage() {
       fetchUsers()
     } else {
       toast.error('Failed to update')
+    }
+    setActioning(null)
+  }
+
+  const startEdit = (user: User) => {
+    setEditingId(user._id)
+    setEditForm({ name: user.name, role: user.role })
+  }
+
+  const saveEdit = async (id: string) => {
+    if (!editForm.name.trim()) {
+      toast.error('Name is required')
+      return
+    }
+
+    setActioning(id)
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: editForm.name.trim(), role: editForm.role }),
+    })
+
+    if (res.ok) {
+      toast.success('User updated successfully')
+      setEditingId(null)
+      fetchUsers()
+    } else {
+      toast.error('Failed to update user')
     }
     setActioning(null)
   }
@@ -74,6 +106,7 @@ export default function AdminUsersPage() {
           <option value="client">Clients</option>
           <option value="psychologist">Psychologists</option>
           <option value="psychiatrist">Psychiatrists</option>
+          <option value="counsellor">Counsellors</option>
           <option value="admin">Admins</option>
         </select>
       </div>
@@ -97,14 +130,36 @@ export default function AdminUsersPage() {
               ) : users.map(u => (
                 <tr key={u._id} className="hover:bg-muted/10 transition-colors">
                   <td className="px-6 py-4">
-                    <p className="font-semibold">{u.name}</p>
+                    {editingId === u._id ? (
+                      <input
+                        className="input-field h-9 w-full max-w-xs"
+                        value={editForm.name}
+                        onChange={(e) => setEditForm((form) => ({ ...form, name: e.target.value }))}
+                        aria-label={`Edit name for ${u.email}`}
+                      />
+                    ) : (
+                      <p className="font-semibold">{u.name}</p>
+                    )}
                     <p className="text-xs text-muted-foreground">{u.email}</p>
                     {u.slmcRegNo && <p className="text-xs font-mono mt-1 text-brand-600">SLMC: {u.slmcRegNo}</p>}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`badge capitalize ${
-                      u.role === 'admin' ? 'badge-red' : u.role === 'client' ? 'badge-blue' : 'badge-green'
-                    }`}>{u.role}</span>
+                    {editingId === u._id ? (
+                      <select
+                        className="input-field h-9 w-full min-w-36"
+                        value={editForm.role}
+                        onChange={(e) => setEditForm((form) => ({ ...form, role: e.target.value }))}
+                        aria-label={`Edit role for ${u.email}`}
+                      >
+                        {ROLE_OPTIONS.map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span className={`badge capitalize ${
+                        u.role === 'admin' ? 'badge-red' : u.role === 'client' ? 'badge-blue' : 'badge-green'
+                      }`}>{u.role}</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     {(u.role === 'psychologist' || u.role === 'psychiatrist') && (
@@ -118,7 +173,24 @@ export default function AdminUsersPage() {
                     <span className="text-xs text-muted-foreground">{format(new Date(u.createdAt), 'MMM d, yyyy')}</span>
                   </td>
                   <td className="px-6 py-4 text-right space-x-2">
-                    {(u.role === 'psychologist' || u.role === 'psychiatrist') && (
+                    {editingId === u._id ? (
+                      <>
+                        <button onClick={() => saveEdit(u._id)} disabled={actioning === u._id}
+                          className="btn-primary text-xs px-2.5 py-1.5 h-auto">
+                          Save
+                        </button>
+                        <button onClick={() => setEditingId(null)} disabled={actioning === u._id}
+                          className="btn-secondary text-xs px-2.5 py-1.5 h-auto">
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={() => startEdit(u)} disabled={actioning === u._id}
+                        className="btn-secondary text-xs px-2.5 py-1.5 h-auto">
+                        Edit
+                      </button>
+                    )}
+                    {(u.role === 'psychologist' || u.role === 'psychiatrist' || u.role === 'counsellor') && editingId !== u._id && (
                       <button onClick={() => toggleVerify(u._id, !!u.verified)} disabled={actioning === u._id}
                         className="btn-secondary text-xs px-2.5 py-1.5 h-auto">
                         {u.verified ? 'Revoke' : 'Approve'}

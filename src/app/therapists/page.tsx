@@ -17,7 +17,7 @@ export default function TherapistsPage() {
         <div className="bg-brand-50 dark:bg-brand-950/20 py-12 sm:py-16 border-b border-brand-100 dark:border-brand-900/30">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
-              <p className="text-sm font-semibold text-brand-700">Find your specialist</p>
+              <p className="text-sm font-semibold text-brand-700 dark:text-brand-300">Find your specialist</p>
               <h1 className="text-3xl sm:text-4xl font-extrabold mt-2">Match with a verified therapist</h1>
               <p className="text-muted-foreground mt-3">
                 Browse licensed practitioners across Sri Lanka and book the care you need.

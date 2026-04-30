@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -9,7 +9,6 @@ import { toast } from 'sonner'
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard/client'
   const [form, setForm] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
 
@@ -30,7 +29,16 @@ export default function LoginPage() {
 
     // Redirect based on role — session is updated after sign in
     toast.success('Welcome back!')
-    router.push(callbackUrl)
+    const session = await getSession()
+    const role = session?.user?.role
+    const dashboardUrl =
+      role === 'admin'
+        ? '/dashboard/admin'
+        : role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor'
+          ? '/dashboard/practitioner'
+          : '/dashboard/client'
+
+    router.push(searchParams.get('callbackUrl') || dashboardUrl)
     router.refresh()
   }
 

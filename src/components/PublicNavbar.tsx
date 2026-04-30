@@ -16,7 +16,8 @@ export function PublicNavbar() {
   const navLinks = [
     { href: '/#how-it-works', label: 'How It Works' },
     { href: '/resources', label: 'Resources' },
-    { href: '/resources#documentation', label: 'Documentation' },
+    { href: '/resources#blog', label: 'Blog' },
+    { href: '/docs', label: 'Documentation' },
     { href: '/#faq', label: 'FAQ' },
   ]
 
@@ -26,6 +27,13 @@ export function PublicNavbar() {
     if (role === 'psychologist' || role === 'psychiatrist') return '/dashboard/practitioner'
     if (role === 'admin') return '/dashboard/admin'
     return '/dashboard'
+  }
+
+  const getDashboardLabel = () => {
+    const role = session?.user?.role
+    if (role === 'admin') return 'Admin Dashboard'
+    if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor') return 'Practitioner Dashboard'
+    return 'Dashboard'
   }
 
   return (
@@ -76,7 +84,7 @@ export function PublicNavbar() {
             </Link>
             {session ? (
               <Link href={getDashboardHref()} className="hidden sm:inline-flex btn-primary text-xs px-3 py-2">
-                Dashboard
+                {getDashboardLabel()}
               </Link>
             ) : (
               <>
@@ -119,7 +127,7 @@ export function PublicNavbar() {
               </div>
               {session ? (
                 <Link href={getDashboardHref()} onClick={() => setMobileOpen(false)} className="btn-primary text-sm w-full">
-                  Dashboard
+                  {getDashboardLabel()}
                 </Link>
               ) : (
                 <>

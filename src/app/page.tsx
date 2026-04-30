@@ -50,7 +50,7 @@ export default function LandingPage() {
                 {['Trauma', 'Addiction', 'Chronic Pain', 'Depression', 'Recovery'].map((c) => (
                   <button
                     key={c}
-                    className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-sm text-brand-700 hover:bg-brand-100"
+                    className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-sm text-brand-700 hover:bg-brand-100 dark:border-brand-800 dark:bg-brand-900/20 dark:text-brand-300 dark:hover:bg-brand-900/40"
                   >
                     {c}
                   </button>
@@ -128,8 +128,8 @@ export default function LandingPage() {
                 are unaware they’re struggling with mental health issues.
               </p>
             </div>
-            <div className="card p-6 border-brand-200 bg-brand-50">
-              <p className="text-xs text-brand-700">MindBridge Outcome</p>
+            <div className="card p-6 border-brand-200 bg-brand-50 dark:border-brand-800 dark:bg-brand-900/15">
+              <p className="text-xs text-brand-700 dark:text-brand-300">MindBridge Outcome</p>
               <p className="text-4xl font-bold text-foreground mt-2">100%</p>
               <p className="text-sm text-muted-foreground mt-2">
                 of MindBridge clients report meaningful improvement within the first month.
@@ -158,42 +158,46 @@ export default function LandingPage() {
                 title: 'Browse',
                 description: 'Search our directory of verified psychologists and psychiatrists. Filter by province, language, specialty, and session type.',
                 icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
-                bg: 'bg-white',
+                surface: 'bg-card dark:bg-card',
+                stepText: 'text-brand-500/10 dark:text-brand-300/10',
               },
               {
                 step: '02',
                 title: 'Book',
                 description: 'Choose a time that works for you — online or in‑person. No waiting rooms, no paperwork.',
                 icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-                bg: 'bg-brand-50',
+                surface: 'bg-brand-50 dark:bg-brand-900/15',
+                stepText: 'text-brand-500/10 dark:text-brand-300/10',
               },
               {
                 step: '03',
                 title: 'Begin',
                 description: 'Start sessions, track your mood, and set meaningful goals — all in one secure space.',
                 icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
-                bg: 'bg-brand-100',
+                surface: 'bg-brand-100 dark:bg-brand-800/25',
+                stepText: 'text-brand-600/10 dark:text-brand-300/10',
               },
               {
                 step: '04',
                 title: 'Bridge',
                 description: 'Sustain your progress with continued support — bridging you to long‑term wellbeing.',
                 icon: 'M4 15s1-1 2-1 2 1 3 1 3-1 2-1 2 1 2 1 2-1',
-                bg: 'bg-brand-600',
+                surface: 'bg-brand-600 dark:bg-brand-700',
+                stepText: 'text-white/15',
                 invert: true,
               },
             ].map((item, idx) => (
-              <div key={idx} className={`card p-6 relative overflow-hidden ${item.bg} ${item.invert ? 'text-white' : ''}`}>
-                <div className={`absolute top-4 right-4 text-6xl font-black ${item.invert ? 'text-white/15' : 'text-brand-500/10'} select-none`}>
+              <div key={idx} className={`card p-6 relative overflow-hidden ${item.surface} ${item.invert ? 'text-white' : 'text-foreground'}`}>
+                <div className={`absolute top-4 right-4 text-6xl font-black ${item.stepText} select-none`}>
                   {item.step}
                 </div>
-                <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.invert ? 'bg-white/15 text-white' : 'bg-brand-100 text-brand-700'}`}>
+                <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.invert ? 'bg-white/15 text-white' : 'bg-brand-100 text-brand-700 dark:bg-brand-900/35 dark:text-brand-300'}`}>
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d={item.icon} />
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                <p className={`text-sm leading-relaxed ${item.invert ? 'text-white/85' : 'text-muted-foreground'}`}>
+                <p className={`text-sm leading-relaxed ${item.invert ? 'text-white/85' : 'text-muted-foreground dark:text-white/70'}`}>
                   {item.description}
                 </p>
               </div>
@@ -216,7 +220,7 @@ export default function LandingPage() {
             <a href="tel:1926" className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition-colors">
               Call 1926 - Ministry of Health
             </a>
-            <a href="tel:1333" className="inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100 transition-colors dark:border-red-700 dark:text-red-400">
+            <a href="tel:1333" className="inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100 transition-colors dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/20">
               Call 1333 - CCCline
             </a>
           </div>
@@ -283,9 +287,9 @@ export default function LandingPage() {
       {/* CTA — Near Footer */}
       <section className="py-8">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-brand-200 bg-brand-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="rounded-2xl border border-brand-200 bg-brand-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 dark:border-brand-800 dark:bg-brand-900/15">
             <div>
-              <p className="text-sm font-semibold text-brand-700">Ready to begin?</p>
+              <p className="text-sm font-semibold text-brand-700 dark:text-brand-300">Ready to begin?</p>
               <p className="text-muted-foreground">Find a specialist who fits your needs today.</p>
             </div>
             <Link href="/therapists" className="btn-primary">Find a Therapist</Link>
