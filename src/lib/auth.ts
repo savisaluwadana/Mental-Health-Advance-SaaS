@@ -42,7 +42,24 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.email = user.email
+        token.name = user.name
         token.role = (user as any).role
+        return token
+      }
+
+      if (token.email) {
+        try {
+          await connectDB()
+          const freshUser = await User.findOne({ email: token.email }).select('name role avatar').lean() as any
+          if (freshUser) {
+            token.name = freshUser.name
+            token.role = freshUser.role
+            token.picture = freshUser.avatar ?? null
+          }
+        } catch {
+          // Keep the existing token if the database is unavailable during session refresh.
+        }
       }
       return token
     },

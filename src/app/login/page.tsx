@@ -6,6 +6,21 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
+function dashboardForRole(role?: string) {
+  if (role === 'admin') return '/dashboard/admin'
+  if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor') return '/dashboard/practitioner'
+  return '/dashboard/client'
+}
+
+function callbackMatchesRole(callbackUrl: string | null, role?: string) {
+  if (!callbackUrl) return false
+  if (role === 'admin') return callbackUrl.includes('/dashboard/admin')
+  if (role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor') {
+    return callbackUrl.includes('/dashboard/practitioner')
+  }
+  return callbackUrl.includes('/dashboard/client')
+}
+
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -31,14 +46,10 @@ export default function LoginPage() {
     toast.success('Welcome back!')
     const session = await getSession()
     const role = session?.user?.role
-    const dashboardUrl =
-      role === 'admin'
-        ? '/dashboard/admin'
-        : role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor'
-          ? '/dashboard/practitioner'
-          : '/dashboard/client'
+    const callbackUrl = searchParams.get('callbackUrl')
+    const dashboardUrl = dashboardForRole(role)
 
-    router.push(searchParams.get('callbackUrl') || dashboardUrl)
+    router.push(callbackMatchesRole(callbackUrl, role) ? callbackUrl! : dashboardUrl)
     router.refresh()
   }
 
