@@ -72,8 +72,8 @@ export default function PractitionerMessagesPage() {
   const myId = session?.user.id
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-8rem)] animate-fade-in">
-      <div className="w-72 shrink-0 flex flex-col card overflow-hidden">
+    <div className="flex flex-col md:flex-row gap-6 md:h-[calc(100vh-8rem)] animate-fade-in">
+      <div className="w-full md:w-72 shrink-0 flex flex-col card overflow-hidden">
         <div className="p-4 border-b border-border">
           <h2 className="font-semibold text-lg">Chats</h2>
         </div>
@@ -101,7 +101,7 @@ export default function PractitionerMessagesPage() {
               </div>
               {selectedClient.name}
             </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-[80px]">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-[96px] md:pb-[80px]">
               {messages.length === 0 ? <p className="text-center text-muted-foreground py-10">No messages yet. Say hi!</p> :
                messages.map(msg => {
                  const isMe = (typeof msg.senderId === 'object' ? msg.senderId._id : msg.senderId) === myId
@@ -117,7 +117,7 @@ export default function PractitionerMessagesPage() {
               }
               <div ref={bottomRef} />
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-card flex gap-2">
+            <div className="md:absolute md:bottom-0 md:left-0 md:right-0 p-4 border-t border-border bg-card flex flex-col sm:flex-row gap-2">
               <input type="text" className="input-field flex-1 text-sm" placeholder="Type a message..." value={content} onChange={e => setContent(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSend()} />
               <button disabled={!content.trim() || sending} onClick={handleSend} className="btn-primary text-sm px-6">Send</button>
             </div>

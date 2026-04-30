@@ -55,7 +55,7 @@ export function PractitionerDirectory() {
       {/* Filter bar */}
       <div className="mb-8 flex flex-wrap gap-3 rounded-xl border border-border bg-card p-4 shadow-sm">
         <select
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full sm:w-auto rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           value={filters.province}
           onChange={(e) => setFilter('province', e.target.value)}
           id="filter-province"
@@ -65,7 +65,7 @@ export function PractitionerDirectory() {
         </select>
 
         <select
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full sm:w-auto rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           value={filters.language}
           onChange={(e) => setFilter('language', e.target.value)}
           id="filter-language"
@@ -75,7 +75,7 @@ export function PractitionerDirectory() {
         </select>
 
         <select
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full sm:w-auto rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           value={filters.type}
           onChange={(e) => setFilter('type', e.target.value)}
           id="filter-type"
@@ -86,7 +86,7 @@ export function PractitionerDirectory() {
         </select>
 
         <select
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full sm:w-auto rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           value={filters.role}
           onChange={(e) => setFilter('role', e.target.value)}
           id="filter-role"
@@ -98,7 +98,7 @@ export function PractitionerDirectory() {
 
         <input
           type="text"
-          className="flex-1 min-w-[180px] rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          className="w-full sm:flex-1 min-w-[180px] rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           placeholder="Search by name or specialty…"
           value={filters.search}
           onChange={(e) => setFilter('search', e.target.value)}
@@ -126,7 +126,11 @@ export function PractitionerDirectory() {
         </div>
       ) : practitioners.length === 0 ? (
         <div className="rounded-xl border border-border bg-card p-16 text-center">
-          <p className="text-4xl mb-3">🔍</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M21 21l-4.35-4.35m1.1-5.4a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
+            </svg>
+          </div>
           <p className="font-semibold text-lg">No practitioners found</p>
           <p className="text-muted-foreground text-sm mt-1">
             Try adjusting your filters, or{' '}
@@ -168,7 +172,7 @@ export function PractitionerDirectory() {
               </div>
 
               {p.specialty && (
-                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">🎯 {p.specialty}</p>
+                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">Specialty: {p.specialty}</p>
               )}
 
               <div className="flex flex-wrap gap-1.5">
@@ -186,7 +190,7 @@ export function PractitionerDirectory() {
                 {p.sessionTypes?.map((t) => (
                   <span key={t}
                     className="inline-flex items-center rounded-full border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:border-yellow-800/50 dark:bg-yellow-900/20 dark:text-yellow-400 capitalize">
-                    {t === 'online' ? '🎥' : '🏥'} {t}
+                    {t === 'online' ? 'Online' : 'In-person'}
                   </span>
                 ))}
               </div>

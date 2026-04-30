@@ -90,7 +90,7 @@ function ReadmePanel() {
       >
         <div className="flex items-center gap-3">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300 text-lg">
-            📖
+            i
           </span>
           <div className="text-left">
             <p className="font-semibold text-sm">How to set up a video session</p>
@@ -122,7 +122,7 @@ function ReadmePanel() {
 
           {/* Complete workflow */}
           <div>
-            <h2 className="font-bold text-base mb-3">📋 Complete Workflow</h2>
+            <h2 className="font-bold text-base mb-3">Complete Workflow</h2>
             <ol className="space-y-2.5">
               {steps.map((text, i) => (
                 <li key={i} className="flex gap-3 items-start">
@@ -160,7 +160,7 @@ function ReadmePanel() {
                 ))}
               </ol>
               <p className="text-xs text-muted-foreground italic">
-                💡 Clients can join as a guest — no Google account needed.
+                Clients can join as a guest — no Google account needed.
               </p>
             </div>
 
@@ -185,14 +185,14 @@ function ReadmePanel() {
                 ))}
               </ol>
               <p className="text-xs text-muted-foreground italic">
-                💡 Clients can join via browser — no Teams app required.
+                Clients can join via browser — no Teams app required.
               </p>
             </div>
           </div>
 
           {/* Client experience note */}
           <div className="rounded-xl border border-green-200 bg-green-50/50 dark:bg-green-950/10 dark:border-green-900/30 p-4 flex gap-3">
-            <span className="text-xl shrink-0">👤</span>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-300">CL</span>
             <div>
               <p className="font-semibold text-green-800 dark:text-green-300">What your client sees</p>
               <p className="text-muted-foreground mt-1 leading-relaxed">
@@ -302,10 +302,10 @@ export default function PractitionerOnlineSessionsPage() {
       <ReadmePanel />
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-muted rounded-xl w-fit">
+      <div className="flex flex-wrap gap-1 p-1 bg-muted rounded-xl w-full sm:w-fit">
         {(['upcoming', 'past'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
+            className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
               tab === t ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'
             }`}>
             {t} ({t === 'upcoming' ? upcoming.length : past.length})
@@ -320,7 +320,7 @@ export default function PractitionerOnlineSessionsPage() {
         </div>
       ) : displayed.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="text-4xl mb-3">🎥</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">VID</div>
           <p className="font-medium">{tab === 'upcoming' ? 'No upcoming online sessions' : 'No past online sessions'}</p>
           <p className="text-sm text-muted-foreground mt-1">Online sessions booked by clients will appear here.</p>
         </div>
@@ -463,7 +463,7 @@ export default function PractitionerOnlineSessionsPage() {
                           Step 2 — Copy the meeting link from that platform and paste it here
                         </p>
 
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <input
                             type="url"
                             className="input-field flex-1 text-sm"

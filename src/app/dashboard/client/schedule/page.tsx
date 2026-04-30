@@ -83,20 +83,22 @@ export default function SchedulePage() {
             {mySessions.filter((s) => ['pending', 'confirmed'].includes(s.status) && new Date(s.scheduledAt) > new Date()).map((s) => {
               const hoursUntil = (new Date(s.scheduledAt).getTime() - Date.now()) / (1000 * 60 * 60)
               return (
-                <div key={s._id} className="card p-4 flex items-center gap-4">
+                <div key={s._id} className="card p-4 flex flex-col sm:flex-row sm:items-center gap-4">
                   <div className="flex-1">
                     <p className="font-medium">{s.practitionerId?.name ?? 'Practitioner'}</p>
                     <p className="text-sm text-muted-foreground">
                       {format(new Date(s.scheduledAt), 'EEE, d MMM yyyy • h:mm a')} · {s.type}
                     </p>
                   </div>
-                  <span className={`badge ${s.status === 'confirmed' ? 'badge-green' : 'badge-yellow'}`}>{s.status}</span>
-                  {s.meetingLink && s.status === 'confirmed' && (
-                    <a href={s.meetingLink} target="_blank" rel="noopener noreferrer" className="btn-primary text-xs px-3 py-1.5">Join</a>
-                  )}
-                  {hoursUntil > 24 && (
-                    <button onClick={() => handleCancel(s._id)} className="btn-ghost text-xs px-3 py-1.5 text-destructive hover:bg-destructive/10">Cancel</button>
-                  )}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`badge ${s.status === 'confirmed' ? 'badge-green' : 'badge-yellow'}`}>{s.status}</span>
+                    {s.meetingLink && s.status === 'confirmed' && (
+                      <a href={s.meetingLink} target="_blank" rel="noopener noreferrer" className="btn-primary text-xs px-3 py-1.5">Join</a>
+                    )}
+                    {hoursUntil > 24 && (
+                      <button onClick={() => handleCancel(s._id)} className="btn-ghost text-xs px-3 py-1.5 text-destructive hover:bg-destructive/10">Cancel</button>
+                    )}
+                  </div>
                 </div>
               )
             })}
@@ -107,7 +109,7 @@ export default function SchedulePage() {
       {/* Filters */}
       <div className="card p-4 flex flex-wrap gap-3">
         {['province', 'language', 'type', 'role'].map((key) => (
-          <select key={key} className="input-field max-w-[160px] capitalize"
+          <select key={key} className="input-field w-full sm:max-w-[160px] capitalize"
             value={(filters as any)[key]}
             onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}>
             <option value="">All {key}s</option>
@@ -131,7 +133,7 @@ export default function SchedulePage() {
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-lg font-bold dark:bg-brand-900/30 dark:text-brand-300">
                   {p.name[0]}
                 </div>
-                <div className="min-w-0flex-1">
+                <div className="min-w-0 flex-1">
                   <p className="font-semibold truncate">{p.name}</p>
                   <p className="text-xs text-muted-foreground capitalize">{p.role}</p>
                   {p.slmcRegNo && <p className="text-xs text-muted-foreground">SLMC: {p.slmcRegNo}</p>}
@@ -142,7 +144,7 @@ export default function SchedulePage() {
                 {p.province && <span className="badge badge-blue">{p.province}</span>}
                 {p.sessionTypes?.map((t) => <span key={t} className="badge badge-yellow capitalize">{t}</span>)}
               </div>
-              {p.specialty && <p className="text-xs text-muted-foreground mt-2 truncate">🎯 {p.specialty}</p>}
+              {p.specialty && <p className="text-xs text-muted-foreground mt-2 truncate">Specialty: {p.specialty}</p>}
             </div>
           ))}
       </div>
@@ -171,14 +173,14 @@ export default function SchedulePage() {
               </select>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button onClick={handleBook} disabled={booking} className="btn-primary" id="booking-submit">
               {booking ? 'Booking…' : 'Confirm Booking'}
             </button>
             <button onClick={() => setSelected(null)} className="btn-secondary">Cancel</button>
           </div>
           <p className="text-xs text-muted-foreground mt-3">
-            ℹ️ Your session will be confirmed by the practitioner. You can cancel up to 24 hours before.
+            Your session will be confirmed by the practitioner. You can cancel up to 24 hours before.
           </p>
         </div>
       )}

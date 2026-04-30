@@ -10,7 +10,7 @@ const LANGUAGES = [
     code: '',
     label: 'English',
     native: 'English',
-    flag: '🇬🇧',
+    short: 'EN',
     greeting: 'Welcome',
     sub: 'Continue in English',
   },
@@ -18,7 +18,7 @@ const LANGUAGES = [
     code: 'si',
     label: 'Sinhala',
     native: 'සිංහල',
-    flag: '🇱🇰',
+    short: 'SI',
     greeting: 'ආයුබෝවන්',
     sub: 'සිංහලෙන් දිගටම යන්න',
   },
@@ -26,7 +26,7 @@ const LANGUAGES = [
     code: 'ta',
     label: 'Tamil',
     native: 'தமிழ்',
-    flag: '🇱🇰',
+    short: 'TA',
     greeting: 'வணக்கம்',
     sub: 'தமிழில் தொடரவும்',
   },
@@ -160,8 +160,9 @@ export function LanguagePickerModal() {
                       : 'border-border hover:border-brand-300 hover:bg-accent hover:scale-[1.01] active:scale-[0.99]'
                   }`}
                 >
-                  {/* Flag */}
-                  <span className="text-3xl shrink-0">{lang.flag}</span>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+                    {lang.short}
+                  </span>
 
                   {/* Text */}
                   <div className="flex-1 min-w-0">
@@ -207,7 +208,7 @@ export function LanguagePickerModal() {
           <div className="px-6 pb-6">
             <p className="text-center text-xs text-muted-foreground">
               You can change the language anytime from the{' '}
-              <span className="font-medium text-foreground">🌐 menu</span> in the navigation bar.
+              <span className="font-medium text-foreground">language menu</span> in the navigation bar.
             </p>
           </div>
         </div>

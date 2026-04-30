@@ -21,6 +21,8 @@ export default function RegisterPage() {
     province: '',
     languages: [] as string[],
     slmcRegNo: '',
+    slmcCertificateDataUrl: '',
+    nicDocumentDataUrl: '',
     specialty: '',
     sessionTypes: [] as ('online' | 'physical')[],
   })
@@ -39,6 +41,20 @@ export default function RegisterPage() {
       ...f,
       sessionTypes: f.sessionTypes.includes(type) ? f.sessionTypes.filter((t) => t !== type) : [...f.sessionTypes, type],
     }))
+  }
+
+  const handleFileUpload = (file: File | undefined, field: 'slmcCertificateDataUrl' | 'nicDocumentDataUrl') => {
+    if (!file) return
+    const maxSize = 5 * 1024 * 1024
+    if (file.size > maxSize) {
+      toast.error('File too large. Please upload a file under 5MB.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      setForm((prev) => ({ ...prev, [field]: (ev.target?.result as string) || '' }))
+    }
+    reader.readAsDataURL(file)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,12 +114,12 @@ export default function RegisterPage() {
           <p className="text-muted-foreground mt-1 text-sm">Join MindBridge SL — your mental health journey starts here</p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Role selector */}
             <div>
               <label className="label block mb-2">I am a…</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {(['client', 'psychologist', 'psychiatrist', 'counsellor'] as const).map((r) => (
                   <button
                     key={r}
@@ -121,7 +137,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="col-span-2">
                 <label htmlFor="reg-name" className="label block mb-1.5">Full name</label>
                 <input id="reg-name" type="text" required className="input-field w-full" placeholder="Priya Silva"
@@ -155,7 +171,7 @@ export default function RegisterPage() {
             {/* Languages */}
             <div>
               <label className="label block mb-2">Languages</label>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((lang) => (
                   <button key={lang} type="button"
                     onClick={() => toggleLanguage(lang)}
@@ -180,13 +196,41 @@ export default function RegisterPage() {
                     value={form.slmcRegNo} onChange={(e) => setForm({ ...form, slmcRegNo: e.target.value })} />
                 </div>
                 <div>
+                  <label htmlFor="reg-slmc-doc" className="label block mb-1.5">SLMC Certificate (PDF or Image) <span className="text-red-500">*</span></label>
+                  <input
+                    id="reg-slmc-doc"
+                    type="file"
+                    accept="application/pdf,image/*"
+                    required={isPractitioner}
+                    className="input-field w-full"
+                    onChange={(e) => handleFileUpload(e.target.files?.[0], 'slmcCertificateDataUrl')}
+                  />
+                  {form.slmcCertificateDataUrl && (
+                    <p className="text-xs text-muted-foreground mt-1">SLMC certificate attached</p>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="reg-nic-doc" className="label block mb-1.5">NIC / National ID (PDF or Image) <span className="text-red-500">*</span></label>
+                  <input
+                    id="reg-nic-doc"
+                    type="file"
+                    accept="application/pdf,image/*"
+                    required={isPractitioner}
+                    className="input-field w-full"
+                    onChange={(e) => handleFileUpload(e.target.files?.[0], 'nicDocumentDataUrl')}
+                  />
+                  {form.nicDocumentDataUrl && (
+                    <p className="text-xs text-muted-foreground mt-1">NIC document attached</p>
+                  )}
+                </div>
+                <div>
                   <label htmlFor="reg-specialty" className="label block mb-1.5">Specialty</label>
                   <input id="reg-specialty" type="text" className="input-field w-full" placeholder="e.g. Anxiety, Depression, Family Therapy"
                     value={form.specialty} onChange={(e) => setForm({ ...form, specialty: e.target.value })} />
                 </div>
                 <div>
                   <label className="label block mb-2">Session Types</label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {(['online', 'physical'] as const).map((t) => (
                       <button key={t} type="button" onClick={() => toggleSessionType(t)}
                         className={`rounded-full border px-3 py-1 text-sm transition-all capitalize ${

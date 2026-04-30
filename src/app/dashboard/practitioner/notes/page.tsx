@@ -54,9 +54,9 @@ export default function SessionNotesPage() {
   }
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-8rem)] animate-fade-in">
+    <div className="flex flex-col md:flex-row gap-6 md:h-[calc(100vh-8rem)] animate-fade-in">
       {/* Session list */}
-      <div className="w-72 shrink-0 flex flex-col">
+      <div className="w-full md:w-72 shrink-0 flex flex-col">
         <h1 className="text-2xl font-bold mb-4">Session Notes</h1>
         <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
           <span className="h-2 w-2 rounded-full bg-red-500" />
@@ -82,14 +82,14 @@ export default function SessionNotesPage() {
         {!selectedSession ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-4xl mb-3">📝</p>
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">NOTE</div>
               <p className="font-medium">Select a session</p>
               <p className="text-sm text-muted-foreground">Choose a session from the left to write or view notes</p>
             </div>
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-xl font-semibold">{selectedSession.clientId?.name}</h2>
                 <p className="text-sm text-muted-foreground">

@@ -8,6 +8,8 @@ export interface IUser extends Document {
   avatar?: string
   phone?: string
   slmcRegNo?: string
+  slmcCertificateDataUrl?: string
+  nicDocumentDataUrl?: string
   province?: string
   languages: string[]
   timezone?: string
@@ -16,6 +18,7 @@ export interface IUser extends Document {
   specialty?: string
   sessionTypes?: ('online' | 'physical')[]
   sealDataUrl?: string
+  verified?: boolean
   createdAt: Date
 }
 
@@ -32,6 +35,8 @@ const UserSchema = new Schema<IUser>(
     avatar: String,
     phone: String,
     slmcRegNo: String,
+    slmcCertificateDataUrl: String,
+    nicDocumentDataUrl: String,
     province: String,
     languages: [String],
     timezone: { type: String, default: 'Asia/Colombo' },
@@ -40,6 +45,7 @@ const UserSchema = new Schema<IUser>(
     specialty: String,
     sessionTypes: [{ type: String, enum: ['online', 'physical'] }],
     sealDataUrl: String, // base64 seal for psychiatrists
+    verified: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

@@ -9,11 +9,13 @@ const RegisterSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  role: z.enum(['client', 'psychologist', 'psychiatrist']),
+  role: z.enum(['client', 'psychologist', 'psychiatrist', 'counsellor']),
   phone: z.string().optional(),
   province: z.string().optional(),
   languages: z.array(z.string()).optional(),
   slmcRegNo: z.string().optional(),
+  slmcCertificateDataUrl: z.string().optional(),
+  nicDocumentDataUrl: z.string().optional(),
   specialty: z.string().optional(),
   sessionTypes: z.array(z.enum(['online', 'physical'])).optional(),
 })
@@ -28,9 +30,16 @@ export async function POST(req: NextRequest) {
 
     const { name, email, password, role, ...rest } = parsed.data
 
-    // Require SLMC reg for practitioners
-    if ((role === 'psychologist' || role === 'psychiatrist') && !rest.slmcRegNo) {
+    // Require verification docs for practitioners
+    const isPractitioner = role === 'psychologist' || role === 'psychiatrist' || role === 'counsellor'
+    if (isPractitioner && !rest.slmcRegNo) {
       return NextResponse.json({ error: { slmcRegNo: ['SLMC registration number is required for practitioners'] } }, { status: 400 })
+    }
+    if (isPractitioner && !rest.slmcCertificateDataUrl) {
+      return NextResponse.json({ error: { slmcCertificateDataUrl: ['SLMC certificate is required for verification'] } }, { status: 400 })
+    }
+    if (isPractitioner && !rest.nicDocumentDataUrl) {
+      return NextResponse.json({ error: { nicDocumentDataUrl: ['NIC document is required for verification'] } }, { status: 400 })
     }
 
     await connectDB()

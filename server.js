@@ -52,12 +52,12 @@
       })
 
       socket.on('disconnect', () => {
-        console.log(`🔌 Socket disconnected: ${socket.id}`)
+        console.log(`Socket disconnected: ${socket.id}`)
       })
     })
 
     httpServer.listen(port, () => {
-      console.log(`\n🧠 MindBridge SL running at http://${hostname}:${port}\n`)
+      console.log(`\nMindBridge SL running at http://${hostname}:${port}\n`)
     })
   })
 */

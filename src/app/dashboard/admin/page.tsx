@@ -52,7 +52,7 @@ export default function AdminOverviewPage() {
       
       <div className="card p-6 mt-8">
         <h2 className="text-lg font-semibold mb-2">Quick Actions</h2>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3">
           <a href="/dashboard/admin/users" className="btn-primary">Manage Users</a>
           <a href="/dashboard/admin/keywords" className="btn-secondary">Configure Safety Engine</a>
         </div>

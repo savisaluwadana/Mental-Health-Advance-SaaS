@@ -14,8 +14,8 @@ import {
 import { format } from 'date-fns'
 
 const EMOTIONS = ['Happy', 'Calm', 'Anxious', 'Sad', 'Angry', 'Hopeful', 'Overwhelmed', 'Grateful', 'Lonely', 'Excited', 'Tired', 'Confused']
-const EMOJI_MAP: Record<number, string> = {
-  1: '😭', 2: '😢', 3: '😟', 4: '😕', 5: '😐', 6: '🙂', 7: '😊', 8: '😄', 9: '😁', 10: '🤩',
+const MOOD_LABELS: Record<number, string> = {
+  1: 'Very Low', 2: 'Low', 3: 'Uneasy', 4: 'Flat', 5: 'Steady', 6: 'Okay', 7: 'Good', 8: 'Strong', 9: 'Bright', 10: 'Excellent',
 }
 
 interface MoodEntry { _id: string; date: string; score: number; emotions: string[]; note?: string; sharedWithPractitioner: boolean }
@@ -68,7 +68,7 @@ export default function MoodTrackerPage() {
         const filtered = prev.filter((e) => new Date(e.date).toDateString() !== today)
         return [updated, ...filtered]
       })
-      toast.success(todayLogged ? 'Mood updated!' : 'Mood logged! ✨')
+      toast.success(todayLogged ? 'Mood updated!' : 'Mood logged!')
     } else {
       toast.error('Failed to save mood')
     }
@@ -82,7 +82,7 @@ export default function MoodTrackerPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Mood Tracker</h1>
           <p className="text-muted-foreground mt-1">Track how you&apos;re feeling each day</p>
@@ -102,7 +102,7 @@ export default function MoodTrackerPage() {
           {/* Score slider */}
           <div className="card p-6 space-y-6">
             <div className="text-center">
-              <div className="text-6xl mb-2">{EMOJI_MAP[score]}</div>
+              <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-2xl bg-brand-50 text-sm font-bold text-brand-700 shadow-inner dark:bg-brand-900/30 dark:text-brand-300">{MOOD_LABELS[score]}</div>
               <p className="text-2xl font-bold">{score} / 10</p>
               <p className="text-muted-foreground text-sm">How are you feeling right now?</p>
             </div>
@@ -113,8 +113,8 @@ export default function MoodTrackerPage() {
               id="mood-slider"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>😭 Very Low</span>
-              <span>🤩 Excellent</span>
+              <span>Very Low</span>
+              <span>Excellent</span>
             </div>
           </div>
 
@@ -195,15 +195,15 @@ export default function MoodTrackerPage() {
               <p className="text-center text-muted-foreground py-8">No entries yet</p>
             ) : (
               entries.map((entry) => (
-                <div key={entry._id} className="card p-4 flex items-center gap-4">
-                  <span className="text-2xl">{EMOJI_MAP[entry.score]}</span>
+                <div key={entry._id} className="card p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{entry.score}/10</span>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium">{format(new Date(entry.date), 'EEE, d MMM yyyy')}</p>
                     <p className="text-sm text-muted-foreground truncate">
                       {entry.emotions.join(', ') || 'No tags'}{entry.note ? ` · ${entry.note.slice(0, 60)}…` : ''}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0 flex-wrap">
                     <span className="badge badge-green">{entry.score}/10</span>
                     {entry.sharedWithPractitioner && (
                       <span className="badge badge-blue text-xs">Shared</span>

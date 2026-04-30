@@ -33,7 +33,7 @@ export default function ClientProfilePage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center gap-4 border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-border pb-4">
         <button onClick={() => router.back()} className="p-2 hover:bg-muted rounded-full">
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -61,12 +61,12 @@ export default function ClientProfilePage() {
               </div>
             ) : moods.map(mood => (
               <div key={mood._id} className="card p-4 border-l-4" style={{ borderLeftColor: mood.score > 7 ? '#10b981' : mood.score >= 4 ? '#eab308' : '#ef4444' }}>
-                <div className="flex justify-between items-start mb-2">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold">{mood.score}/10</span>
                     <span className="text-sm font-medium text-muted-foreground">{format(new Date(mood.date), 'EEEE, d MMM')}</span>
                   </div>
-                  <div className="flex gap-1 flex-wrap justify-end max-w-[50%]">
+                  <div className="flex gap-1 flex-wrap justify-start sm:justify-end sm:max-w-[50%]">
                     {mood.emotions.map(e => <span key={e} className="badge badge-yellow text-[10px] capitalize">{e}</span>)}
                   </div>
                 </div>

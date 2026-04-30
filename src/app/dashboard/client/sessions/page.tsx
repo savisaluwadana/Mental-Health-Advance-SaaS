@@ -89,8 +89,8 @@ export default function ClientOnlineSessionsPage() {
       </div>
 
       {/* Info banner */}
-      <div className="rounded-xl border border-brand-200 bg-gradient-to-r from-brand-50 to-background dark:from-brand-900/20 dark:border-brand-800 p-4 flex gap-3">
-        <span className="text-2xl shrink-0">💡</span>
+      <div className="rounded-xl border border-brand-200 bg-gradient-to-r from-brand-50 to-background dark:from-brand-900/20 dark:border-brand-800 p-4 flex flex-col sm:flex-row gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-100 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">i</span>
         <div>
           <p className="font-medium text-sm">How it works</p>
           <p className="text-sm text-muted-foreground mt-0.5">
@@ -101,12 +101,12 @@ export default function ClientOnlineSessionsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-muted rounded-xl w-fit">
+      <div className="flex flex-wrap gap-1 p-1 bg-muted rounded-xl w-full sm:w-fit">
         {(['upcoming', 'past'] as const).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
+            className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
               tab === t ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
@@ -124,7 +124,7 @@ export default function ClientOnlineSessionsPage() {
         </div>
       ) : displayed.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="text-4xl mb-3">🎥</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">VID</div>
           <p className="font-medium">
             {tab === 'upcoming' ? 'No upcoming online sessions' : 'No past online sessions'}
           </p>
@@ -157,7 +157,7 @@ export default function ClientOnlineSessionsPage() {
                   <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl ${
                     isImminent ? 'bg-brand-100 dark:bg-brand-900/30 animate-pulse' : 'bg-muted'
                   }`}>
-                    🎥
+                    <VideoIcon />
                   </div>
                   <div className="min-w-0">
                     <p className="font-semibold truncate">
@@ -184,7 +184,7 @@ export default function ClientOnlineSessionsPage() {
                 </div>
 
                 {/* Right: status + action */}
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
                   <StatusBadge status={s.status} />
 
                   {joinable ? (

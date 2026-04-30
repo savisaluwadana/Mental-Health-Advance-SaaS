@@ -54,12 +54,12 @@ export default function ClientProgressPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Progress Dashboard</h1>
           <p className="text-muted-foreground mt-1">Your mental health journey at a glance</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {[30, 90].map((d) => (
             <button key={d} onClick={() => setDays(d)}
               className={d === days ? 'btn-primary text-sm px-4 py-2' : 'btn-secondary text-sm px-4 py-2'}>
@@ -70,7 +70,7 @@ export default function ClientProgressPage() {
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Avg Mood Score', value: avgMood || '—', hint: 'out of 10' },
           { label: 'Mood Entries', value: moodData.length, hint: `last ${days} days` },
@@ -115,7 +115,7 @@ export default function ClientProgressPage() {
           {goals.length === 0 ? (
             <p className="text-muted-foreground text-sm">No goals yet</p>
           ) : (
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
               <PieChart width={120} height={120}>
                 <Pie data={pieData} cx={55} cy={55} innerRadius={35} outerRadius={55} dataKey="value">
                   {pieData.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}

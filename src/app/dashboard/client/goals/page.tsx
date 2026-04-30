@@ -32,7 +32,7 @@ export default function GoalsPage() {
       const updated = await res.json()
       setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
       setCheckInGoalId(null)
-      toast.success('Check-in logged! 💪')
+      toast.success('Check-in logged!')
     } else { toast.error('Failed to log check-in') }
     setSaving(false)
   }
@@ -47,7 +47,7 @@ export default function GoalsPage() {
       const updated = await res.json()
       setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
       setCelebrating(goalId)
-      toast.success('🎉 Goal completed! Amazing work!')
+      toast.success('Goal completed. Amazing work!')
       setTimeout(() => setCelebrating(null), 3000)
     }
   }
@@ -58,7 +58,7 @@ export default function GoalsPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Goals & Check-Ins</h1>
           <p className="text-muted-foreground mt-1">Goals set by your practitioner — track your progress weekly</p>
@@ -91,7 +91,7 @@ export default function GoalsPage() {
         [...Array(3)].map((_, i) => <div key={i} className="card p-6 animate-pulse h-28" />)
       ) : goals.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="text-4xl mb-3">🎯</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">GO</div>
           <p className="font-semibold text-lg">No goals yet</p>
           <p className="text-muted-foreground text-sm mt-1">Your practitioner will set goals for you during sessions</p>
         </div>
@@ -101,19 +101,21 @@ export default function GoalsPage() {
           {activeGoals.map((goal) => (
             <div key={goal._id} className={`card p-5 transition-all ${celebrating === goal._id ? 'ring-2 ring-brand-500 scale-[1.01]' : ''}`}>
               {celebrating === goal._id && (
-                <div className="text-center py-4 text-4xl animate-bounce">🎉🎊🏆</div>
+                <div className="mb-4 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-center text-sm font-semibold text-brand-700 dark:border-brand-800 dark:bg-brand-900/20 dark:text-brand-300">
+                  Goal completed
+                </div>
               )}
-              <div className="flex items-start justify-between gap-3 mb-3">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                 <div>
                   <p className="font-semibold">{goal.title}</p>
                   {goal.description && <p className="text-sm text-muted-foreground mt-0.5">{goal.description}</p>}
                   {goal.targetDate && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      🗓 Target: {format(new Date(goal.targetDate), 'd MMM yyyy')}
+                      Target: {format(new Date(goal.targetDate), 'd MMM yyyy')}
                     </p>
                   )}
                 </div>
-                <div className="flex gap-2 shrink-0">
+                <div className="flex flex-wrap gap-2 shrink-0">
                   <button onClick={() => setCheckInGoalId(checkInGoalId === goal._id ? null : goal._id)}
                     className="btn-secondary text-xs px-3 py-1.5">
                     {checkInGoalId === goal._id ? 'Cancel' : 'Check In'}
@@ -127,7 +129,7 @@ export default function GoalsPage() {
 
               {/* Weekly check history */}
               {goal.weeklyCheckIns.length > 0 && (
-                <div className="flex gap-1 mt-2">
+                <div className="flex flex-wrap gap-1 mt-2">
                   {goal.weeklyCheckIns.slice(-8).map((ci, i) => (
                     <div key={i} title={`Week of ${format(new Date(ci.week), 'd MMM')}: ${ci.progressRating}/5`}
                       className="flex h-6 w-6 items-center justify-center rounded-full text-xs"
@@ -169,7 +171,7 @@ export default function GoalsPage() {
               <h2 className="font-semibold mt-6">Completed ({completedGoals.length})</h2>
               {completedGoals.map((goal) => (
                 <div key={goal._id} className="card p-4 opacity-70 flex items-center gap-3">
-                  <span className="text-xl">✅</span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">OK</span>
                   <div>
                     <p className="font-medium line-through text-muted-foreground">{goal.title}</p>
                     <p className="text-xs text-muted-foreground">

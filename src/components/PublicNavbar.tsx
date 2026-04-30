@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './GoogleTranslate'
@@ -9,14 +9,14 @@ import { useState } from 'react'
 
 export function PublicNavbar() {
   const pathname = usePathname()
+  const router = useRouter()
   const { data: session } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const navLinks = [
-    { href: '/#therapists', label: 'Find a Therapist' },
     { href: '/#how-it-works', label: 'How It Works' },
     { href: '/resources', label: 'Resources' },
-    { href: '/docs', label: 'Documentation' },
+    { href: '/resources#documentation', label: 'Documentation' },
     { href: '/#faq', label: 'FAQ' },
   ]
 
@@ -58,16 +58,30 @@ export function PublicNavbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <LanguageSwitcher variant="navbar" />
+            <button
+              className="md:hidden btn-ghost p-2"
+              onClick={() => router.back()}
+              aria-label="Go back"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="hidden sm:block">
+              <LanguageSwitcher variant="navbar" />
+            </div>
             <ThemeToggle size="sm" />
+            <Link href="/therapists" className="hidden md:inline-flex btn-secondary text-sm px-4 py-2">
+              Find a Therapist
+            </Link>
             {session ? (
-              <Link href={getDashboardHref()} className="btn-primary text-xs px-3 py-2">
+              <Link href={getDashboardHref()} className="hidden sm:inline-flex btn-primary text-xs px-3 py-2">
                 Dashboard
               </Link>
             ) : (
               <>
-                <Link href="/login" className="btn-ghost text-sm px-3 py-2">Sign In</Link>
-                <Link href="/register" className="btn-primary text-sm px-3 py-2">Get Started</Link>
+                <Link href="/login" className="hidden sm:inline-flex btn-ghost text-sm px-3 py-2">Sign In</Link>
+                <Link href="/register" className="hidden sm:inline-flex btn-primary text-sm px-3 py-2">Get Started</Link>
               </>
             )}
             {/* Mobile hamburger */}
@@ -99,6 +113,25 @@ export function PublicNavbar() {
                 {link.label}
               </Link>
             ))}
+            <div className="mt-2 flex flex-col gap-2 px-2">
+              <div className="py-1">
+                <LanguageSwitcher variant="navbar" />
+              </div>
+              {session ? (
+                <Link href={getDashboardHref()} onClick={() => setMobileOpen(false)} className="btn-primary text-sm w-full">
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login" onClick={() => setMobileOpen(false)} className="btn-ghost text-sm w-full">
+                    Sign In
+                  </Link>
+                  <Link href="/register" onClick={() => setMobileOpen(false)} className="btn-primary text-sm w-full">
+                    Get Started
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>

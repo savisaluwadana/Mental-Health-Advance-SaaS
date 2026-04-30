@@ -66,10 +66,10 @@ export default function AdminUsersPage() {
 
       <div className="card p-4 flex flex-wrap gap-4 items-center bg-muted/30">
         <input type="text" placeholder="Search by name, email, or SLMC no..." 
-          className="input-field max-w-sm flex-1"
+          className="input-field w-full sm:max-w-sm flex-1"
           value={filters.search} onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
         />
-        <select className="input-field w-auto" value={filters.role} onChange={e => setFilters(f => ({ ...f, role: e.target.value }))}>
+        <select className="input-field w-full sm:w-auto" value={filters.role} onChange={e => setFilters(f => ({ ...f, role: e.target.value }))}>
           <option value="">All Roles</option>
           <option value="client">Clients</option>
           <option value="psychologist">Psychologists</option>

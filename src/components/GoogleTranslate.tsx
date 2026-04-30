@@ -10,9 +10,9 @@ declare global {
 }
 
 const LANGUAGES = [
-  { code: '', label: 'English', native: 'English', flag: '🇬🇧' },
-  { code: 'si', label: 'Sinhala', native: 'සිංහල', flag: '🇱🇰' },
-  { code: 'ta', label: 'Tamil', native: 'தமிழ்', flag: '🇱🇰' },
+  { code: '', label: 'English', native: 'English', short: 'EN' },
+  { code: 'si', label: 'Sinhala', native: 'සිංහල', short: 'SI' },
+  { code: 'ta', label: 'Tamil', native: 'தமிழ்', short: 'TA' },
 ]
 
 const LS_KEY = 'mindbridge_lang'
@@ -183,7 +183,7 @@ export function LanguageSwitcher({ variant = 'navbar' }: { variant?: 'navbar' | 
             current.code === lang.code ? 'bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300' : 'hover:bg-accent'
           }`}
         >
-          <span className="text-base">{lang.flag}</span>
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand-50 text-[11px] font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{lang.short}</span>
           <span className="font-medium flex-1">{lang.native}</span>
           <span className="text-xs text-muted-foreground">{lang.label}</span>
         </button>

@@ -11,9 +11,9 @@ export default async function ClientDashboardLayout({ children }: { children: Re
   if (!session || session.user.role !== 'client') redirect('/login')
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex min-h-screen overflow-hidden bg-background">
       <DashboardSidebar role="client" />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
         <div className="p-6 lg:p-8 max-w-7xl mx-auto">
           {children}
         </div>

@@ -54,7 +54,7 @@ export default function LoginPage() {
           <p className="text-muted-foreground mt-1 text-sm">Sign in to your account to continue</p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="email" className="label block mb-1.5">Email address</label>

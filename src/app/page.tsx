@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { PublicNavbar } from '@/components/PublicNavbar'
-import { PractitionerDirectory } from '@/components/PractitionerDirectory'
+import { AnimatedStats } from '@/components/AnimatedStats'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -16,47 +16,129 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative overflow-hidden pt-16">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-background to-background dark:from-brand-950/20 dark:via-background" />
-          <div className="absolute top-20 right-0 h-[600px] w-[600px] -translate-x-1/4 rounded-full bg-brand-400/10 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-[400px] w-[400px] translate-x-1/4 rounded-full bg-brand-300/10 blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,#F0FBF9_0%,#ffffff_46%,#D7F1EA_100%)] dark:bg-[linear-gradient(135deg,#0F0F0F_0%,#1D1D1D_54%,#003B35_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />
         </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 md:py-36">
-          <div className="max-w-3xl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24 md:py-36">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 dark:border-brand-700/30 dark:bg-brand-900/20 dark:text-brand-300">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse-slow" />
-              Now serving all 9 provinces of Sri Lanka
+              Sri Lanka’s premium mental health network
             </div>
-            <h1 className="text-5xl font-extrabold leading-tight text-foreground md:text-6xl lg:text-7xl">
-              Your mental health{' '}
+            <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-foreground md:text-6xl lg:text-7xl">
+              Elite care,{' '}
               <span className="bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent">
-                matters here
+                always within reach
               </span>
             </h1>
-            <p className="mt-6 text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              MindBridge SL connects Sri Lankans and expats with licensed therapists and psychiatrists —
-              in Sinhala, Tamil, and English. Wherever you are on the island, support is a click away.
+            <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              Trusted, verified psychologists and psychiatrists — with private sessions in Sinhala, Tamil, and English.
+              Book online or in‑person and manage your journey in one secure platform.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="#therapists" className="btn-primary text-base px-6 py-3">
-                Find a Therapist
+            <div className="mt-6 rounded-2xl border border-brand-100 bg-card/90 p-4 shadow-xl shadow-brand-950/5 backdrop-blur dark:border-white/10">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  placeholder="Address, city, or ZIP code"
+                  className="input-field flex-1"
+                  aria-label="Search by location"
+                />
+                <button className="btn-primary px-5">Search</button>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {['Trauma', 'Addiction', 'Chronic Pain', 'Depression', 'Recovery'].map((c) => (
+                  <button
+                    key={c}
+                    className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-sm text-brand-700 hover:bg-brand-100"
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mt-4 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">My mind needs help with</span>{' '}
+              <span className="font-semibold text-brand-600">anxiety</span>
+              <span className="ml-1 inline-block h-4 w-[2px] align-middle bg-brand-600 animate-pulse" />
+            </div>
+            <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
+              <Link href="/therapists" className="btn-primary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3">
+                Match With a Specialist
               </Link>
-              <Link href="#how-it-works" className="btn-secondary text-base px-6 py-3">
-                How It Works
+              <Link href="#how-it-works" className="btn-secondary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3">
+                See the Experience
               </Link>
             </div>
-            <div className="mt-12 flex flex-wrap gap-8 text-sm text-muted-foreground">
-              {[
-                { label: 'Licensed Practitioners', value: '50+' },
-                { label: 'Provinces Covered', value: '9 / 9' },
-                { label: 'Languages', value: '3' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p>{stat.label}</p>
+            <AnimatedStats />
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 -z-10 rounded-3xl border border-brand-100/70 bg-brand-50/70 shadow-2xl shadow-brand-950/10 dark:border-white/10 dark:bg-white/5" />
+              <div className="glass-card overflow-hidden">
+                <div className="aspect-[4/3] w-full bg-[linear-gradient(135deg,#003B35_0%,#003862_48%,#51B291_100%)] p-6 text-white">
+                  <div className="flex h-full flex-col justify-between rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-100">Private Care Console</p>
+                      <h2 className="mt-3 max-w-sm text-3xl font-bold leading-tight">Personalized support, coordinated with clarity.</h2>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 text-sm">
+                      {['Verified', 'Secure', 'Multilingual'].map((item) => (
+                        <div key={item} className="rounded-lg border border-white/15 bg-white/10 p-3">
+                          <span className="block h-1 w-8 rounded-full bg-brand-300" />
+                          <span className="mt-3 block font-semibold">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Impact Snapshot */}
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="section-title">The Mental Health Gap — and the Momentum</h2>
+            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+              A quick snapshot of the challenge — and how MindBridge is helping close the gap.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="card p-6">
+              <p className="text-xs text-muted-foreground">Source: UNICEF (placeholder)</p>
+              <p className="text-4xl font-bold text-foreground mt-2">X%</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                of people in Sri Lanka experience mental health challenges.
+              </p>
+            </div>
+            <div className="card p-6">
+              <p className="text-xs text-muted-foreground">Source: National survey (placeholder)</p>
+              <p className="text-4xl font-bold text-foreground mt-2">Y%</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                seek professional support — a critical access gap.
+              </p>
+            </div>
+            <div className="card p-6">
+              <p className="text-xs text-muted-foreground">Source: Public health report (placeholder)</p>
+              <p className="text-4xl font-bold text-foreground mt-2">Z%</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                are unaware they’re struggling with mental health issues.
+              </p>
+            </div>
+            <div className="card p-6 border-brand-200 bg-brand-50">
+              <p className="text-xs text-brand-700">MindBridge Outcome</p>
+              <p className="text-4xl font-bold text-foreground mt-2">100%</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                of MindBridge clients report meaningful improvement within the first month.
+              </p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-6">
+            Replace placeholders with verified sources before launch.
+          </p>
         </div>
       </section>
 
@@ -66,55 +148,57 @@ export default function LandingPage() {
           <div className="text-center mb-14">
             <h2 className="section-title">How MindBridge Works</h2>
             <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-              Getting mental health support in Sri Lanka has never been simpler.
+              A guided journey from finding care to lasting change.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 step: '01',
                 title: 'Browse',
-                description: 'Search our directory of licensed psychologists and psychiatrists. Filter by province, language, specialty, and session type.',
+                description: 'Search our directory of verified psychologists and psychiatrists. Filter by province, language, specialty, and session type.',
                 icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+                bg: 'bg-white',
               },
               {
                 step: '02',
                 title: 'Book',
-                description: 'Select a time slot that works for you — online video call or in-person. No waiting rooms, no paperwork.',
+                description: 'Choose a time that works for you — online or in‑person. No waiting rooms, no paperwork.',
                 icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                bg: 'bg-brand-50',
               },
               {
                 step: '03',
                 title: 'Begin',
-                description: 'Connect with your therapist, track your mood, set goals, and grow. All your progress in one private, secure space.',
+                description: 'Start sessions, track your mood, and set meaningful goals — all in one secure space.',
                 icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+                bg: 'bg-brand-100',
+              },
+              {
+                step: '04',
+                title: 'Bridge',
+                description: 'Sustain your progress with continued support — bridging you to long‑term wellbeing.',
+                icon: 'M4 15s1-1 2-1 2 1 3 1 3-1 2-1 2 1 2 1 2-1',
+                bg: 'bg-brand-600',
+                invert: true,
               },
             ].map((item, idx) => (
-              <div key={idx} className="card p-8 relative overflow-hidden group hover:shadow-md transition-shadow">
-                <div className="absolute top-4 right-4 text-6xl font-black text-brand-500/10 group-hover:text-brand-500/15 transition-colors select-none">
+              <div key={idx} className={`card p-6 relative overflow-hidden ${item.bg} ${item.invert ? 'text-white' : ''}`}>
+                <div className={`absolute top-4 right-4 text-6xl font-black ${item.invert ? 'text-white/15' : 'text-brand-500/10'} select-none`}>
                   {item.step}
                 </div>
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-400">
+                <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.invert ? 'bg-white/15 text-white' : 'bg-brand-100 text-brand-700'}`}>
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d={item.icon} />
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+                <p className={`text-sm leading-relaxed ${item.invert ? 'text-white/85' : 'text-muted-foreground'}`}>
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Therapist Directory — live client component with filter state */}
-      <section id="therapists" className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="section-title">Find Your Therapist</h2>
-            <p className="mt-3 text-muted-foreground">Browse our network of licensed practitioners across Sri Lanka.</p>
-          </div>
-          <PractitionerDirectory />
         </div>
       </section>
 
@@ -122,7 +206,7 @@ export default function LandingPage() {
       <section className="py-8 bg-red-50 dark:bg-red-950/20 border-y border-red-100 dark:border-red-900/30">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🆘</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-sm font-bold text-red-700 dark:bg-red-900/30 dark:text-red-300">24/7</span>
             <div>
               <p className="font-semibold text-red-800 dark:text-red-300">In a crisis? Help is available 24/7</p>
               <p className="text-sm text-red-600 dark:text-red-400">Sri Lanka national mental health crisis lines</p>
@@ -130,11 +214,25 @@ export default function LandingPage() {
           </div>
           <div className="flex flex-wrap gap-4">
             <a href="tel:1926" className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition-colors">
-              📞 1926 — Ministry of Health
+              Call 1926 - Ministry of Health
             </a>
             <a href="tel:1333" className="inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100 transition-colors dark:border-red-700 dark:text-red-400">
-              📞 1333 — CCCline
+              Call 1333 - CCCline
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA — Before FAQ */}
+      <section className="py-10 bg-card border-y border-border">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 className="text-xl font-semibold">Start with a verified specialist</h3>
+            <p className="text-muted-foreground text-sm mt-1">Choose your focus and book your first session in minutes.</p>
+          </div>
+          <div className="flex gap-3">
+            <Link href="/therapists" className="btn-primary">Browse Therapists</Link>
+            <Link href="/register" className="btn-secondary">Get Started</Link>
           </div>
         </div>
       </section>
@@ -178,6 +276,19 @@ export default function LandingPage() {
                 </div>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA — Near Footer */}
+      <section className="py-8">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl border border-brand-200 bg-brand-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-brand-700">Ready to begin?</p>
+              <p className="text-muted-foreground">Find a specialist who fits your needs today.</p>
+            </div>
+            <Link href="/therapists" className="btn-primary">Find a Therapist</Link>
           </div>
         </div>
       </section>

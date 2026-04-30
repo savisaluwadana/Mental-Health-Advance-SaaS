@@ -116,7 +116,7 @@ export default function ClientMessagesPage() {
           <p className="text-center text-muted-foreground py-12 animate-pulse">Loading messages…</p>
         ) : messages.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-3xl mb-2">💬</p>
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">MSG</div>
             <p className="font-medium">No messages yet</p>
             <p className="text-sm text-muted-foreground">Start a conversation with {practitionerName}</p>
           </div>
@@ -124,7 +124,7 @@ export default function ClientMessagesPage() {
           const isMe = (typeof msg.senderId === 'object' ? msg.senderId._id : msg.senderId) === myId
           return (
             <div key={msg._id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
+              <div className={`max-w-[90%] sm:max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
                 isMe ? 'bg-brand-600 text-white rounded-br-sm' : 'bg-card border border-border rounded-bl-sm'
               }`}>
                 <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -152,7 +152,7 @@ export default function ClientMessagesPage() {
         </div>
       ) : (
         <div className="border-t border-border pt-4">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <div className="flex-1 relative">
               <textarea
                 rows={2}
@@ -173,7 +173,7 @@ export default function ClientMessagesPage() {
             <button
               onClick={handleSend}
               disabled={sending || !content.trim()}
-              className="btn-primary self-end px-4"
+              className="btn-primary self-end sm:self-auto px-4"
               id="message-send"
             >
               {sending ? (

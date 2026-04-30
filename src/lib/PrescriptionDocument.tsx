@@ -274,7 +274,7 @@ export function PrescriptionDocument({
         {/* Disclaimer */}
         <View style={styles.disclaimer}>
           <Text>
-            ⚠ This prescription is issued by a licensed psychiatrist registered with the Sri Lanka
+            Important: This prescription is issued by a licensed psychiatrist registered with the Sri Lanka
             Medical Council (SLMC). It is valid for the duration specified above and must be
             dispensed by a registered pharmacist. Do not self-medicate.
           </Text>

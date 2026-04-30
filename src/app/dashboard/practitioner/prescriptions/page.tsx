@@ -160,7 +160,7 @@ export default function PrescriptionsPage() {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <p className="text-4xl mb-3">🔒</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">LOCK</div>
           <p className="font-semibold">Access Restricted</p>
           <p className="text-muted-foreground text-sm mt-1">Prescription module is for psychiatrists only</p>
         </div>
@@ -170,7 +170,7 @@ export default function PrescriptionsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Prescriptions</h1>
           <p className="text-muted-foreground mt-1">Issue digital prescriptions with SLMC registration</p>
@@ -186,12 +186,12 @@ export default function PrescriptionsPage() {
           {loading ? [...Array(3)].map((_, i) => <div key={i} className="card p-6 animate-pulse h-24" />) :
             prescriptions.length === 0 ? (
               <div className="card p-12 text-center">
-                <p className="text-4xl mb-3">💊</p>
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">RX</div>
                 <p className="font-semibold">No prescriptions yet</p>
                 <p className="text-sm text-muted-foreground">Issue your first prescription using the button above</p>
               </div>
             ) : prescriptions.map((p) => (
-              <div key={p._id} className="card p-5 flex items-center gap-4">
+              <div key={p._id} className="card p-5 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <p className="font-semibold">{p.clientId?.name ?? 'Client'}</p>
@@ -210,7 +210,7 @@ export default function PrescriptionsPage() {
                 </div>
                 <button onClick={() => downloadPdf(p._id)} disabled={downloading === p._id}
                   className="btn-primary text-sm shrink-0" id={`download-pdf-${p._id}`}>
-                  {downloading === p._id ? 'Generating…' : '⬇ PDF'}
+                  {downloading === p._id ? 'Generating…' : 'Download PDF'}
                 </button>
               </div>
             ))}
@@ -239,12 +239,12 @@ export default function PrescriptionsPage() {
 
           {/* Medications */}
           <div className="card p-6 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <h2 className="font-semibold">Medications</h2>
               <button onClick={addMedication} className="btn-secondary text-sm">+ Add Medication</button>
             </div>
             {form.medications.map((med, i) => (
-              <div key={i} className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 rounded-lg border border-border">
+              <div key={i} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3 rounded-lg border border-border">
                 <div>
                   <label className="label text-xs block mb-1">Medication</label>
                   <input className="input-field w-full text-sm" placeholder="e.g. Sertraline" value={med.name}
@@ -317,7 +317,7 @@ export default function PrescriptionsPage() {
                 </svg>
                 Creating Prescription…
               </span>
-            ) : '💊 Create Prescription & Save'}
+            ) : 'Create Prescription & Save'}
           </button>
         </div>
       )}

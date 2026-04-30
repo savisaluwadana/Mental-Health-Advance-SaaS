@@ -99,7 +99,7 @@ export default function AdminKeywordsPage() {
             <div className="p-4 border-b border-border bg-muted/30">
               <h2 className="font-semibold">Active Keywords</h2>
             </div>
-            <div className="p-0">
+            <div className="p-0 overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead className="bg-muted/50 text-muted-foreground text-xs uppercase border-b border-border">
                   <tr>

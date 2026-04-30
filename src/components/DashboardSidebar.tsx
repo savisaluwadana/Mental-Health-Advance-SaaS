@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './GoogleTranslate'
 
@@ -22,7 +23,9 @@ function NavIcon({ d }: { d: string }) {
 
 export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | 'psychiatrist' | 'counsellor' | 'admin' }) {
   const pathname = usePathname()
+  const router = useRouter()
   const { data: session } = useSession()
+  const [isOpen, setIsOpen] = useState(false)
 
   const clientNav: NavItem[] = [
     { href: '/dashboard/client', label: 'Home', icon: <NavIcon d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> },
@@ -55,8 +58,8 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
   const navItems = role === 'admin' ? adminNav : role === 'client' ? clientNav : practitionerNav
   const basePath = role === 'admin' ? '/dashboard/admin' : role === 'client' ? '/dashboard/client' : '/dashboard/practitioner'
 
-  return (
-    <aside className="flex h-full w-60 flex-col border-r border-border bg-card">
+  const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => (
+    <>
       {/* Logo */}
       <div className="flex h-16 items-center gap-2 border-b border-border px-4">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600">
@@ -78,13 +81,14 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={isActive ? 'sidebar-link-active' : 'sidebar-link'}
             >
               {item.icon}
               <span>{item.label}</span>
             </Link>
-          )
-        })}
+          )}
+        )}
       </nav>
 
       {/* Bottom: user info + theme + sign out */}
@@ -100,7 +104,11 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
           <ThemeToggle size="sm" />
         </div>
         <LanguageSwitcher variant="sidebar" />
-        <Link href="/" className="sidebar-link w-full text-muted-foreground hover:text-foreground">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          className="sidebar-link w-full text-muted-foreground hover:text-foreground"
+        >
           <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
@@ -117,6 +125,82 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
           Sign Out
         </button>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card px-4">
+        <div className="flex items-center gap-2">
+          <button
+            aria-label="Go back"
+            onClick={() => router.back()}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            aria-label="Open menu"
+            onClick={() => setIsOpen(true)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600">
+            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <span className="text-sm font-semibold">MindBridge<span className="text-brand-600"> SL</span></span>
+        </div>
+        <ThemeToggle size="sm" />
+      </div>
+
+      {/* Mobile Drawer */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsOpen(false)}
+          />
+          <aside className="absolute left-0 top-0 flex h-full w-72 flex-col border-r border-border bg-card shadow-xl">
+            <div className="flex h-16 items-center justify-between border-b border-border px-4">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600">
+                  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <span className="text-sm font-bold">MindBridge<span className="text-brand-600"> SL</span></span>
+              </div>
+              <button
+                aria-label="Close menu"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <SidebarContent onNavigate={() => setIsOpen(false)} />
+          </aside>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex h-full w-60 flex-col border-r border-border bg-card">
+        <SidebarContent />
+      </aside>
+    </>
   )
 }
