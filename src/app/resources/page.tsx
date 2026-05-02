@@ -6,14 +6,8 @@ export const metadata: Metadata = {
   description: 'Free mental health resources, crisis lines, and support services for Sri Lankans and expats.',
 }
 
-const ARTICLES = [
-  { category: 'Anxiety', title: 'Understanding Anxiety Disorders', desc: 'Learn to identify anxiety symptoms and evidence-based coping strategies.', marker: 'AN', readTime: '6 min read' },
-  { category: 'Depression', title: 'Living with Depression', desc: 'What depression really feels like and how treatment can help.', marker: 'DP', readTime: '7 min read' },
-  { category: 'Relationships', title: 'Healthy Communication in Relationships', desc: 'Building stronger bonds through empathy and active listening.', marker: 'RL', readTime: '5 min read' },
-  { category: 'Work Stress', title: 'Preventing Burnout', desc: 'Recognizing early warning signs and practical strategies to recover.', marker: 'WS', readTime: '6 min read' },
-  { category: 'Anxiety', title: 'Mindfulness for Everyday Anxiety', desc: 'Simple 5-minute practices you can do anywhere to reduce stress.', marker: 'MF', readTime: '4 min read' },
-  { category: 'Depression', title: 'When to Seek Professional Help', desc: 'Signs that it\'s time to talk to a licensed therapist or psychiatrist.', marker: 'CH', readTime: '5 min read' },
-]
+import connectDB from '@/lib/mongodb'
+import Article from '@/models/Article'
 
 const clientSteps = [
   {
@@ -61,7 +55,9 @@ const adminOperations = [
   },
 ]
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  await connectDB()
+  const dbArticles = await Article.find().sort({ createdAt: -1 }).lean() as any[]
   return (
     <div className="min-h-screen bg-background">
       <PublicNavbar />
@@ -113,24 +109,28 @@ export default function ResourcesPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {ARTICLES.map((article, i) => (
-                <div key={i} className="card p-5 hover:shadow-md transition-shadow group cursor-pointer">
-                  <div className="flex items-start gap-3 mb-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{article.marker}</span>
-                    <div>
-                      <span className="badge badge-green text-xs mb-1">{article.category}</span>
-                      <h3 className="font-semibold leading-snug group-hover:text-brand-600 transition-colors">
-                        {article.title}
-                      </h3>
+              {dbArticles.length === 0 ? (
+                <p className="col-span-full text-center text-muted-foreground py-10">No articles published yet.</p>
+              ) : (
+                dbArticles.map((article, i) => (
+                  <div key={i} className="card p-5 hover:shadow-md transition-shadow group cursor-pointer">
+                    <div className="flex items-start gap-3 mb-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{article.marker}</span>
+                      <div>
+                        <span className="badge badge-green text-xs mb-1">{article.category}</span>
+                        <h3 className="font-semibold leading-snug group-hover:text-brand-600 transition-colors">
+                          {article.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{article.desc}</p>
+                    <div className="mt-4 flex items-center justify-between gap-3 text-xs">
+                      <span className="text-muted-foreground">{article.readTime}</span>
+                      <span className="font-medium text-brand-600 dark:text-brand-300">Read article →</span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{article.desc}</p>
-                  <div className="mt-4 flex items-center justify-between gap-3 text-xs">
-                    <span className="text-muted-foreground">{article.readTime}</span>
-                    <span className="font-medium text-brand-600 dark:text-brand-300">Read article →</span>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </section>
 
