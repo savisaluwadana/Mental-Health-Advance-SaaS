@@ -15,6 +15,52 @@ const ARTICLES = [
   { category: 'Depression', title: 'When to Seek Professional Help', desc: 'Signs that it\'s time to talk to a licensed therapist or psychiatrist.', marker: 'CH', readTime: '5 min read' },
 ]
 
+const clientSteps = [
+  {
+    title: 'Create your account',
+    text: 'Register as a client, sign in, and open your dashboard to manage care.',
+  },
+  {
+    title: 'Book a session',
+    text: 'Browse practitioners, filter by language, province, specialty, and session type, then request a time.',
+  },
+  {
+    title: 'Join and follow up',
+    text: 'Use your schedule for upcoming appointments, join online sessions, and message your practitioner when needed.',
+  },
+  {
+    title: 'Track progress',
+    text: 'Log mood, review goals, complete weekly check-ins, and view your progress dashboard.',
+  },
+]
+
+const practitionerSteps = [
+  'Review pending bookings and confirm suitable sessions.',
+  'Add meeting links for online appointments.',
+  'Use client profiles to review care activity.',
+  'Write private session notes after appointments.',
+  'Create prescriptions if you are registered as a psychiatrist.',
+]
+
+const adminOperations = [
+  {
+    title: 'Platform overview',
+    text: 'Review total users, pending practitioner validations, and active safety keywords from the admin home screen.',
+  },
+  {
+    title: 'User management',
+    text: 'Search accounts, filter by role, approve practitioners, revoke verification, or delete users when required.',
+  },
+  {
+    title: 'Safety engine',
+    text: 'Add, review, and remove high-risk trigger phrases that help flag urgent client messages for practitioner attention.',
+  },
+  {
+    title: 'Operational checks',
+    text: 'Regularly review new registrations, practitioner details, SLMC numbers, and safety configuration.',
+  },
+]
+
 export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-background">
@@ -116,110 +162,71 @@ export default function ResourcesPage() {
 
           {/* Documentation */}
           <section id="documentation" className="mt-16">
-            <div className="rounded-2xl border border-brand-100 bg-brand-50/50 p-6 sm:p-8 dark:border-brand-900/30 dark:bg-brand-950/20">
+            <div className="rounded-2xl border border-brand-100 bg-brand-50/50 p-6 sm:p-8 dark:border-brand-900/30 dark:bg-brand-950/20 mb-8">
               <h2 className="text-2xl font-bold">How to Use MindBridge SL</h2>
               <p className="text-muted-foreground mt-2 max-w-2xl">
                 Simple guidance for clients, practitioners, and families using the platform for mental health support.
               </p>
             </div>
 
-            <div className="mt-8 prose dark:prose-invert prose-brand max-w-none">
-              <h3>1. Create Your Account</h3>
-              <p>
-                Start by creating an account and choosing the role that matches how you will use MindBridge SL.
-              </p>
-              <ul>
-                <li><strong>Clients</strong> can book sessions, message practitioners, track mood, and follow goals.</li>
-                <li><strong>Psychologists</strong> can manage clients, sessions, messages, and private notes.</li>
-                <li><strong>Psychiatrists</strong> can do everything psychologists can do and issue prescriptions when appropriate.</li>
-              </ul>
+            <div className="grid gap-6 lg:grid-cols-4">
+              {clientSteps.map((step, index) => (
+                <div key={step.title} className="card p-5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <h2 className="mt-4 text-lg font-semibold">{step.title}</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.text}</p>
+                </div>
+              ))}
+            </div>
 
-              <hr className="my-8" />
+            <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_0.9fr]">
+              <div className="card p-6">
+                <h2 className="text-2xl font-bold">For Clients</h2>
+                <div className="mt-5 space-y-5 text-sm leading-relaxed text-muted-foreground">
+                  <p>
+                    After signing in, your dashboard shows your next sessions, today's mood prompt, active goals, and messages.
+                    Use this area as your main home for care.
+                  </p>
+                  <p>
+                    Online session links appear after the practitioner confirms the appointment and adds the link. The Join button becomes available close to the scheduled start time.
+                  </p>
+                  <p>
+                    Mood entries and notes help you notice patterns. You can choose whether to share mood information with your practitioner.
+                  </p>
+                </div>
+              </div>
 
-              <h3>2. Find and Book a Therapist</h3>
-              <p>
-                Use the therapist directory to find a practitioner who fits your needs.
-              </p>
-              <ol>
-                <li>Open <strong>Find a Therapist</strong>.</li>
-                <li>Filter by province, language, session type, specialty, or practitioner type.</li>
-                <li>Select a practitioner and choose a date, time, and online or in-person session.</li>
-                <li>Submit the booking request and wait for confirmation from the practitioner.</li>
-              </ol>
+              <div className="card p-6 border-brand-200 bg-brand-50/50 dark:border-brand-800 dark:bg-brand-900/10">
+                <h2 className="text-2xl font-bold">For Practitioners</h2>
+                <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+                  {practitionerSteps.map((step) => (
+                    <li key={step} className="flex gap-3">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
-              <hr className="my-8" />
-
-              <h3>3. Join Online Sessions</h3>
-              <p>
-                Online sessions appear in your dashboard after they are booked. When the practitioner confirms the session, they can add the meeting link.
-              </p>
-              <ul>
-                <li>The <strong>Join</strong> button becomes available close to the session start time.</li>
-                <li>You can join from your browser if the meeting provider allows it.</li>
-                <li>If you cannot see a link, message your practitioner or check whether the session is still pending.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>4. Message Your Practitioner</h3>
-              <p>
-                Use Messages for appointment questions, follow-ups, and care-related updates between sessions. Messages are intended for ongoing support, not emergency response.
-              </p>
-              <ul>
-                <li>Open your dashboard and go to <strong>Messages</strong>.</li>
-                <li>Write your message and send it to your assigned practitioner.</li>
-                <li>For immediate danger or crisis support, use the crisis helplines listed above.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>5. Track Mood, Goals, and Progress</h3>
-              <p>
-                Your dashboard helps you keep a simple record of how you are doing over time.
-              </p>
-              <ul>
-                <li><strong>Mood Tracker:</strong> Log one mood score per day, add emotion tags, and optionally share it with your practitioner.</li>
-                <li><strong>Goals:</strong> Review goals set by your practitioner and submit weekly check-ins.</li>
-                <li><strong>Progress:</strong> View your mood history, goal completion, and session activity in one place.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>6. Prescriptions</h3>
-              <p>
-                Prescriptions can only be issued by psychiatrists. If your psychiatrist creates one for you, you can download the PDF from the prescription area when it is available.
-              </p>
-              <p>
-                Always follow your psychiatrist's instructions and speak to a registered pharmacist or doctor if anything is unclear.
-              </p>
-
-              <hr className="my-8" />
-
-              <h3>7. Practitioner Workflow</h3>
-              <p>
-                Practitioners use their dashboard to manage care in one place.
-              </p>
-              <ul>
-                <li><strong>Schedule:</strong> Review pending bookings, confirm sessions, and manage upcoming appointments.</li>
-                <li><strong>Online Sessions:</strong> Add Google Meet or Microsoft Teams links for confirmed online sessions.</li>
-                <li><strong>Clients:</strong> View assigned clients and their care activity.</li>
-                <li><strong>Notes:</strong> Keep private session notes for clinical reference.</li>
-                <li><strong>Prescriptions:</strong> Psychiatrists can create and download digital prescriptions.</li>
-              </ul>
-
-              <hr className="my-8" />
-
-              <h3>8. Admin Dashboard Operations</h3>
-              <p>
-                Admins use the dashboard to keep the platform organized, moderated, and ready for safe use.
-              </p>
-              <ul>
-                <li><strong>Overview:</strong> Review total users, pending practitioner validations, and active safety keywords.</li>
-                <li><strong>User Management:</strong> Search users, filter by role, approve or revoke practitioner verification, and remove accounts when required.</li>
-                <li><strong>Practitioner Verification:</strong> Check practitioner details such as role and SLMC number before approving access.</li>
-                <li><strong>Safety Engine:</strong> Add, review, and remove high-risk trigger phrases used to flag urgent messages.</li>
-                <li><strong>Operational Review:</strong> Use the dashboard regularly to monitor registrations and keep care access trustworthy.</li>
-              </ul>
+            <div className="mt-12">
+              <div className="mb-5">
+                <p className="text-sm font-semibold text-brand-700 dark:text-brand-300">Admin dashboard</p>
+                <h2 className="text-2xl font-bold">Operations for Admins</h2>
+                <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                  Admins keep the platform organized by managing users, practitioner verification, and safety settings.
+                </p>
+              </div>
+              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+                {adminOperations.map((operation) => (
+                  <div key={operation.title} className="card p-5">
+                    <h3 className="font-semibold">{operation.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{operation.text}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         </div>

@@ -17,7 +17,6 @@ export function PublicNavbar() {
     { href: '/#how-it-works', label: 'How It Works' },
     { href: '/resources', label: 'Resources' },
     { href: '/resources#blog', label: 'Blog' },
-    { href: '/docs', label: 'Documentation' },
     { href: '/#faq', label: 'FAQ' },
   ]
 
