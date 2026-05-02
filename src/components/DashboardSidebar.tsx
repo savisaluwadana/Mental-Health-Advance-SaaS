@@ -115,7 +115,10 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
           Back to Website
         </Link>
         <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={async () => {
+            await signOut({ redirect: false })
+            router.push('/login')
+          }}
           className="sidebar-link w-full text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
           <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
