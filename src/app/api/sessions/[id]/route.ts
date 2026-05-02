@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import connectDB from '@/lib/mongodb'
 import SessionModel from '@/models/Session'
+import Message from '@/models/Message'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
 
@@ -70,6 +71,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const updated = await SessionModel.findByIdAndUpdate(params.id, parsed.data, { new: true })
     .populate('clientId', 'name email')
     .populate('practitionerId', 'name email')
+
+  if (parsed.data.status === 'completed') {
+    const cid = [clientId, practId].sort().join('_')
+    await Message.deleteMany({ conversationId: cid })
+  }
 
   // Notify via Socket.io
   const io = (globalThis as any).io
