@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Nunito Sans", "Trebuchet MS", sans-serif;
+  --ink: #10201d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(81, 178, 145, 0.2), transparent 28rem),
+    radial-gradient(circle at 82% 12%, rgba(255, 110, 80, 0.16), transparent 22rem),
+    linear-gradient(135deg, #fffaf0 0%, #effaf5 48%, #e2f0ff 100%);
+  font-family: var(--font-body);
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .panel {
+    @apply rounded-[2rem] border border-white/70 bg-white/75 shadow-soft backdrop-blur;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-lagoon px-5 py-3 text-sm font-bold text-white shadow-lg shadow-lagoon/20 transition hover:-translate-y-0.5 hover:bg-azure;
+  }
+
+  .button-soft {
+    @apply inline-flex items-center justify-center rounded-full border border-lagoon/15 bg-white/70 px-5 py-3 text-sm font-bold text-lagoon transition hover:-translate-y-0.5 hover:bg-white;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-lagoon/15 bg-white/85 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-reef focus:ring-4 focus:ring-reef/15;
+  }
+
+  .badge {
+    @apply rounded-full border border-lagoon/10 bg-white/70 px-3 py-1 text-xs font-bold text-lagoon;
+  }
+}
