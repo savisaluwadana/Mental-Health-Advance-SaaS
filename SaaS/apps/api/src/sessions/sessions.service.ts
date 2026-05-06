@@ -2,7 +2,7 @@ import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/com
 import { Role } from '@prisma/client'
 import { AuthUser } from '../common/auth-user'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateSessionDto, UpsertSessionNoteDto } from './sessions.dto'
+import { CreateSessionDto, UpdateSessionDto, UpsertSessionNoteDto } from './sessions.dto'
 
 @Injectable()
 export class SessionsService {
@@ -44,12 +44,34 @@ export class SessionsService {
         clientId: user.sub,
         practitionerId: dto.practitionerId,
         scheduledAt: dto.scheduledAt,
-        duration: dto.duration,
+        duration: dto.duration ?? 60,
         type: dto.type,
         notes: dto.notes,
       },
       include: {
         practitioner: { select: { id: true, name: true, role: true, specialty: true } },
+      },
+    })
+
+    return { session }
+  }
+
+  async update(user: AuthUser, id: string, dto: UpdateSessionDto) {
+    const existing = await this.prisma.session.findUnique({ where: { id } })
+    if (!existing) throw new BadRequestException('Session not found.')
+
+    const ownsSession = existing.clientId === user.sub || existing.practitionerId === user.sub || user.role === Role.admin
+    if (!ownsSession) throw new ForbiddenException('Forbidden.')
+
+    const session = await this.prisma.session.update({
+      where: { id },
+      data: {
+        status: dto.status as any,
+        meetingLink: dto.meetingLink,
+      },
+      include: {
+        client: { select: { id: true, name: true, email: true } },
+        practitioner: { select: { id: true, name: true, email: true, role: true, specialty: true, slmcRegNo: true } },
       },
     })
 
@@ -67,7 +89,7 @@ export class SessionsService {
       orderBy: { updatedAt: 'desc' },
     })
 
-    return { note }
+    return { note: note ? [note] : [] }
   }
 
   async upsertNote(user: AuthUser, sessionId: string, dto: UpsertSessionNoteDto) {

@@ -20,6 +20,18 @@ export class RegisterDto {
 
   @IsOptional()
   @IsString()
+  slmcRegNo?: string
+
+  @IsOptional()
+  @IsString()
+  slmcCertificateDataUrl?: string
+
+  @IsOptional()
+  @IsString()
+  nicDocumentDataUrl?: string
+
+  @IsOptional()
+  @IsString()
   province?: string
 
   @IsOptional()

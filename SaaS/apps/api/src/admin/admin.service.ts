@@ -19,8 +19,20 @@ export class AdminService {
     return { stats: { users, sessions, pendingSafetyAlerts: alerts, prescriptions } }
   }
 
-  async users() {
+  async users(filters: { role?: string; search?: string }) {
     const users = await this.prisma.user.findMany({
+      where: {
+        ...(filters.role ? { role: filters.role as Role } : {}),
+        ...(filters.search
+          ? {
+              OR: [
+                { name: { contains: filters.search, mode: 'insensitive' } },
+                { email: { contains: filters.search, mode: 'insensitive' } },
+                { slmcRegNo: { contains: filters.search, mode: 'insensitive' } },
+              ],
+            }
+          : {}),
+      },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -31,6 +43,8 @@ export class AdminService {
         province: true,
         languages: true,
         specialty: true,
+        slmcRegNo: true,
+        createdAt: true,
         clientProfile: true,
       },
     })
@@ -41,6 +55,7 @@ export class AdminService {
     const user = await this.prisma.user.update({
       where: { id },
       data: {
+        name: dto.name,
         verified: dto.verified,
         role: dto.role,
         clientProfile: dto.assignedPractitionerId
@@ -55,6 +70,11 @@ export class AdminService {
       select: { id: true, name: true, email: true, role: true, verified: true },
     })
     return { user }
+  }
+
+  async deleteUser(id: string) {
+    await this.prisma.user.delete({ where: { id } })
+    return { ok: true }
   }
 
   async createPractitioner(dto: CreatePractitionerDto) {
@@ -92,15 +112,21 @@ export class AdminService {
   }
 
   async createKeyword(createdById: string, dto: CreateKeywordDto) {
+    const category = dto.category === 'crisis' || dto.category === 'financial' ? dto.category : 'other'
     const keyword = await this.prisma.keywordAlert.upsert({
       where: { keyword: dto.keyword.toLowerCase() },
-      update: { category: dto.category },
+      update: { category },
       create: {
         keyword: dto.keyword.toLowerCase(),
-        category: dto.category,
+        category,
         createdById,
       },
     })
     return { keyword }
+  }
+
+  async deleteKeyword(id: string) {
+    await this.prisma.keywordAlert.delete({ where: { id } })
+    return { ok: true }
   }
 }

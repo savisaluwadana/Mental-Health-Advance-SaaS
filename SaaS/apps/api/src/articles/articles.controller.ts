@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { Role } from '@prisma/client'
 import { JwtAuthGuard } from '../common/jwt-auth.guard'
 import { Public } from '../common/public.decorator'
@@ -17,10 +17,23 @@ export class ArticlesController {
     return this.articlesService.list(query)
   }
 
+  @Public()
+  @Get(':id')
+  get(@Param('id') id: string) {
+    return this.articlesService.get(id)
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.admin)
   @Post()
   create(@Body() dto: CreateArticleDto) {
     return this.articlesService.create(dto)
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin)
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.articlesService.delete(id)
   }
 }

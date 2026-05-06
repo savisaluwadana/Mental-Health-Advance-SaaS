@@ -18,4 +18,14 @@ export class ArticlesService {
     const article = await this.prisma.article.create({ data: dto })
     return { article }
   }
+
+  async get(id: string) {
+    const article = await this.prisma.article.findUnique({ where: { id } })
+    return { article }
+  }
+
+  async delete(id: string) {
+    await this.prisma.article.delete({ where: { id } })
+    return { ok: true }
+  }
 }

@@ -10,9 +10,10 @@ export class CreateSessionDto {
   @IsDate()
   scheduledAt!: Date
 
+  @IsOptional()
   @IsInt()
   @Min(15)
-  duration!: number
+  duration?: number
 
   @IsEnum(SessionType)
   type!: SessionType
@@ -25,4 +26,14 @@ export class CreateSessionDto {
 export class UpsertSessionNoteDto {
   @IsString()
   content!: string
+}
+
+export class UpdateSessionDto {
+  @IsOptional()
+  @IsString()
+  status?: string
+
+  @IsOptional()
+  @IsString()
+  meetingLink?: string
 }

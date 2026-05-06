@@ -9,7 +9,10 @@ export class MessagesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(user: AuthUser, query: MessageQueryDto) {
-    const where = query.withUserId
+    const conversationId = (query as any).conversationId as string | undefined
+    const where = conversationId
+      ? { conversationId }
+      : query.withUserId
       ? { conversationId: this.conversationId(user.sub, query.withUserId) }
       : { OR: [{ senderId: user.sub }, { receiverId: user.sub }] }
 
@@ -49,7 +52,7 @@ export class MessagesService {
 
     const message = await this.prisma.message.create({
       data: {
-        conversationId: this.conversationId(user.sub, dto.receiverId),
+        conversationId: dto.conversationId ?? this.conversationId(user.sub, dto.receiverId),
         senderId: user.sub,
         receiverId: dto.receiverId,
         content: dto.content,

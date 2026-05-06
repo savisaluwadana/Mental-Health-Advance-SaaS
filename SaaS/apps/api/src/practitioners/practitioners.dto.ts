@@ -17,4 +17,12 @@ export class PractitionerQueryDto {
   @IsOptional()
   @IsEnum(SessionType)
   sessionType?: SessionType
+
+  @IsOptional()
+  @IsEnum(SessionType)
+  type?: SessionType
+
+  @IsOptional()
+  @IsString()
+  role?: string
 }

@@ -12,6 +12,7 @@ import { PrescriptionsModule } from './prescriptions/prescriptions.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { SessionsModule } from './sessions/sessions.module'
 import { HealthController } from './health.controller'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HealthController } from './health.controller'
     GoalsModule,
     MessagesModule,
     PrescriptionsModule,
+    UsersModule,
   ],
   controllers: [HealthController],
 })

@@ -9,11 +9,13 @@ export class PractitionersService {
 
   async list(query: PractitionerQueryDto) {
     const where: Prisma.UserWhereInput = {
-      role: { in: [Role.psychologist, Role.psychiatrist, Role.counsellor] },
+      role: query.role
+        ? (query.role as Role)
+        : { in: [Role.psychologist, Role.psychiatrist, Role.counsellor] },
       verified: true,
       ...(query.province ? { province: query.province } : {}),
       ...(query.language ? { languages: { has: query.language } } : {}),
-      ...(query.sessionType ? { sessionTypes: { has: query.sessionType } } : {}),
+      ...(query.sessionType || query.type ? { sessionTypes: { has: query.sessionType ?? query.type } } : {}),
       ...(query.search
         ? {
             OR: [
@@ -32,6 +34,8 @@ export class PractitionersService {
         id: true,
         name: true,
         role: true,
+        avatar: true,
+        slmcRegNo: true,
         province: true,
         languages: true,
         specialty: true,

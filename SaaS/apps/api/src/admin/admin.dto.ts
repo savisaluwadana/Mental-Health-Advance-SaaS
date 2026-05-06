@@ -1,7 +1,11 @@
-import { AlertCategory, Role } from '@prisma/client'
+import { Role } from '@prisma/client'
 import { IsArray, IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator'
 
 export class UpdateUserDto {
+  @IsOptional()
+  @IsString()
+  name?: string
+
   @IsOptional()
   @IsBoolean()
   verified?: boolean
@@ -19,8 +23,8 @@ export class CreateKeywordDto {
   @IsString()
   keyword!: string
 
-  @IsEnum(AlertCategory)
-  category!: AlertCategory
+  @IsString()
+  category!: string
 }
 
 export class CreatePractitionerDto {

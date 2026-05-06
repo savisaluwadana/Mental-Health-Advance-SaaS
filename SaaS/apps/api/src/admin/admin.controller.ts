@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { Role } from '@prisma/client'
 import { AuthUser } from '../common/auth-user'
 import { CurrentUser } from '../common/current-user.decorator'
@@ -20,13 +20,18 @@ export class AdminController {
   }
 
   @Get('users')
-  users() {
-    return this.adminService.users()
+  users(@Query('role') role?: string, @Query('search') search?: string) {
+    return this.adminService.users({ role, search })
   }
 
   @Patch('users/:id')
   updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return this.adminService.updateUser(id, dto)
+  }
+
+  @Delete('users/:id')
+  deleteUser(@Param('id') id: string) {
+    return this.adminService.deleteUser(id)
   }
 
   @Post('practitioners')
@@ -42,5 +47,10 @@ export class AdminController {
   @Post('keywords')
   createKeyword(@CurrentUser() user: AuthUser, @Body() dto: CreateKeywordDto) {
     return this.adminService.createKeyword(user.sub, dto)
+  }
+
+  @Delete('keywords')
+  deleteKeyword(@Query('id') id: string) {
+    return this.adminService.deleteKeyword(id)
   }
 }

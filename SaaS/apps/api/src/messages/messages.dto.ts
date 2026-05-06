@@ -4,9 +4,17 @@ export class MessageQueryDto {
   @IsOptional()
   @IsString()
   withUserId?: string
+
+  @IsOptional()
+  @IsString()
+  conversationId?: string
 }
 
 export class SendMessageDto {
+  @IsOptional()
+  @IsString()
+  conversationId?: string
+
   @IsString()
   receiverId!: string
 
