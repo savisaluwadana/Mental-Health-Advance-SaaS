@@ -1,5 +1,10 @@
+import React from 'react'
+import { renderToBuffer } from '@react-pdf/renderer'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
+import { PrescriptionDocument } from '@/lib/PrescriptionDocument'
+
+export const runtime = 'nodejs'
 
 const API_URL = process.env.API_INTERNAL_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api'
 
@@ -11,28 +16,34 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   })
 
   if (!response.ok) {
-    return NextResponse.json({ error: { message: 'Unable to load prescription' } }, { status: response.status })
+    return NextResponse.json({ error: 'Unable to load prescription' }, { status: response.status })
   }
 
   const { prescriptions } = await response.json()
   const prescription = prescriptions.find((item: any) => item.id === params.id)
   if (!prescription) {
-    return NextResponse.json({ error: { message: 'Prescription not found' } }, { status: 404 })
+    return NextResponse.json({ error: 'Prescription not found' }, { status: 404 })
   }
 
-  const lines = [
-    'MindBridge SL Prescription',
-    `Client: ${prescription.client?.name ?? 'Client'}`,
-    `Psychiatrist: ${prescription.psychiatrist?.name ?? 'Psychiatrist'}`,
-    `Issued: ${new Date(prescription.issuedAt).toLocaleDateString()}`,
-    '',
-    ...prescription.medications.map((med: any) => `${med.name} - ${med.dosage}, ${med.frequency}, ${med.duration}`),
-  ]
+  const pdf = await renderToBuffer(
+    React.createElement(PrescriptionDocument, {
+      prescriptionId: prescription.id,
+      issuedAt: new Date(prescription.issuedAt).toLocaleDateString(),
+      expiresAt: new Date(prescription.expiresAt).toLocaleDateString(),
+      psychiatristName: prescription.psychiatrist?.name ?? 'Psychiatrist',
+      slmcRegNo: prescription.psychiatrist?.slmcRegNo ?? 'N/A',
+      clientName: prescription.client?.name ?? 'Client',
+      clientPhone: prescription.client?.phone ?? undefined,
+      medications: prescription.medications ?? [],
+      signatureDataUrl: prescription.signatureDataUrl,
+      sealDataUrl: prescription.sealDataUrl,
+    }),
+  )
 
-  return new NextResponse(lines.join('\n'), {
+  return new NextResponse(pdf, {
     headers: {
-      'content-type': 'text/plain',
-      'content-disposition': `attachment; filename="prescription-${params.id.slice(-8)}.txt"`,
+      'content-type': 'application/pdf',
+      'content-disposition': `attachment; filename="prescription-${params.id.slice(-8)}.pdf"`,
     },
   })
 }

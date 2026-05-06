@@ -3,10 +3,14 @@ import { AlertStatus, Role } from '@prisma/client'
 import { AuthUser } from '../common/auth-user'
 import { PrismaService } from '../prisma/prisma.service'
 import { MessageQueryDto, SendMessageDto } from './messages.dto'
+import { MessagesGateway } from './messages.gateway'
 
 @Injectable()
 export class MessagesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly gateway: MessagesGateway,
+  ) {}
 
   async list(user: AuthUser, query: MessageQueryDto) {
     const conversationId = (query as any).conversationId as string | undefined
@@ -59,6 +63,10 @@ export class MessagesService {
         flagged,
         flagReasons: reasons,
       },
+      include: {
+        sender: { select: { id: true, name: true, avatar: true, role: true } },
+        receiver: { select: { id: true, name: true, avatar: true, role: true } },
+      },
     })
 
     if (flagged) {
@@ -72,6 +80,11 @@ export class MessagesService {
           reasons,
         },
       })
+    }
+
+    this.gateway.emitMessage(message.conversationId, message)
+    if (flagged) {
+      this.gateway.emitFlaggedAlert(dto.receiverId, { message, conversationId: message.conversationId })
     }
 
     return { message }

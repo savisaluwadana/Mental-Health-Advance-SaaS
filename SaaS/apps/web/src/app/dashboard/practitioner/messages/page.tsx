@@ -9,6 +9,15 @@ import io, { Socket } from 'socket.io-client'
 interface Client { _id: string; name: string }
 interface Message { _id: string; senderId: { _id: string; name: string } | string; receiverId: string; content: string; createdAt: string }
 
+function normalizeSocketMessage(msg: any): Message {
+  return {
+    ...msg,
+    _id: msg._id ?? msg.id,
+    senderId: msg.senderId ?? (msg.sender ? { ...msg.sender, _id: msg.sender._id ?? msg.sender.id } : ''),
+    receiverId: msg.receiverId ?? msg.receiver?.id ?? '',
+  }
+}
+
 export default function PractitionerMessagesPage() {
   const { data: session } = useSession()
   const [clients, setClients] = useState<Client[]>([])
@@ -44,12 +53,13 @@ export default function PractitionerMessagesPage() {
       setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
     })
 
-    const socket = io(window.location.origin, { transports: ['websocket', 'polling'] })
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin, { transports: ['websocket', 'polling'] })
     socketRef.current = socket
     socket.emit('join:conversation', cid)
     socket.emit('join:user', session.user.id)
     socket.on('message:received', (msg: Message) => {
-      setMessages(prev => [...prev, msg])
+      const normalized = normalizeSocketMessage(msg)
+      setMessages(prev => prev.some((item) => item._id === normalized._id) ? prev : [...prev, normalized])
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     })
     

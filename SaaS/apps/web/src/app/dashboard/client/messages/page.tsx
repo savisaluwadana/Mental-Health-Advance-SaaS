@@ -11,6 +11,15 @@ interface Message { _id: string; senderId: { _id: string; name: string; avatar?:
 const MAX_CHARS = 1000
 const WARN_RATE = 5 // per hour
 
+function normalizeSocketMessage(msg: any): Message {
+  return {
+    ...msg,
+    _id: msg._id ?? msg.id,
+    senderId: msg.senderId ?? (msg.sender ? { ...msg.sender, _id: msg.sender._id ?? msg.sender.id } : ''),
+    receiverId: msg.receiverId ?? msg.receiver?.id ?? '',
+  }
+}
+
 export default function ClientMessagesPage() {
   const { data: session } = useSession()
   const [messages, setMessages] = useState<Message[]>([])
@@ -54,12 +63,13 @@ export default function ClientMessagesPage() {
   // Socket.io
   useEffect(() => {
     if (!conversationId || !session?.user.id) return
-    const socket = io(window.location.origin, { transports: ['websocket', 'polling'] })
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin, { transports: ['websocket', 'polling'] })
     socketRef.current = socket
     socket.emit('join:conversation', conversationId)
     socket.emit('join:user', session.user.id)
     socket.on('message:received', (msg: Message) => {
-      setMessages((prev) => [...prev, msg])
+      const normalized = normalizeSocketMessage(msg)
+      setMessages((prev) => prev.some((item) => item._id === normalized._id) ? prev : [...prev, normalized])
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     })
     socket.on('typing:start', () => setTyping(true))

@@ -24,6 +24,14 @@ export class ArticlesService {
     return { article }
   }
 
+  async update(id: string, dto: CreateArticleDto) {
+    const article = await this.prisma.article.update({
+      where: { id },
+      data: dto,
+    })
+    return { article }
+  }
+
   async delete(id: string) {
     await this.prisma.article.delete({ where: { id } })
     return { ok: true }

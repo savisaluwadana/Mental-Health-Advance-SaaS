@@ -19,7 +19,7 @@ export class PrescriptionsService {
               ? {}
               : { client: { clientProfile: { assignedPractitionerId: user.sub } } },
       include: {
-        client: { select: { id: true, name: true, email: true } },
+        client: { select: { id: true, name: true, email: true, phone: true } },
         psychiatrist: { select: { id: true, name: true, slmcRegNo: true } },
         medications: true,
       },
@@ -45,7 +45,7 @@ export class PrescriptionsService {
       },
       include: {
         medications: true,
-        client: { select: { id: true, name: true } },
+        client: { select: { id: true, name: true, email: true, phone: true } },
         psychiatrist: { select: { id: true, name: true, slmcRegNo: true } },
       },
     })
