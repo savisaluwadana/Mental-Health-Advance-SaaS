@@ -15,7 +15,7 @@ const LANGUAGES = [
   { code: 'ta', label: 'Tamil', native: 'தமிழ்', short: 'TA' },
 ]
 
-const LS_KEY = 'mindbridge_lang'
+const LS_KEY = 'safespace_lanka_lang'
 
 // ── Reset to English ──────────────────────────────────────────────────────────
 // The official way is restoreOriginalContent(). As a fallback we clear the

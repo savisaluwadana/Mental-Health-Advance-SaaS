@@ -1,6 +1,6 @@
-# MindBridge SL Developer Documentation
+# SafeSpace Lanka Developer Documentation
 
-Welcome to the internal technical documentation for **MindBridge SL**.
+Welcome to the internal technical documentation for **SafeSpace Lanka**.
 
 This directory contains detailed explanations of every core architectural concept, platform feature, and security mechanism deployed in Version 1.
 

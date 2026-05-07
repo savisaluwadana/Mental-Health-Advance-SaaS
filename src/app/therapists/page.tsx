@@ -4,7 +4,7 @@ import { PractitionerDirectory } from '@/components/PractitionerDirectory'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Find a Therapist — MindBridge SL',
+  title: 'Find a Therapist — SafeSpace Lanka',
   description: 'Browse verified psychologists and psychiatrists in Sri Lanka. Filter by province, language, and session type.',
 }
 

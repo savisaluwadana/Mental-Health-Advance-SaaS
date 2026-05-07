@@ -4,7 +4,7 @@ import { AnimatedStats } from '@/components/AnimatedStats'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'MindBridge SL — Mental Health Platform for Sri Lanka',
+  title: 'SafeSpace Lanka — Mental Health Platform for Sri Lanka',
   description: 'Connecting Sri Lankans and expats with licensed therapists and psychiatrists — island-wide access to mental health care.',
 }
 
@@ -103,7 +103,7 @@ export default function LandingPage() {
           <div className="text-center mb-10">
             <h2 className="section-title">The Mental Health Gap — and the Momentum</h2>
             <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-              A quick snapshot of the challenge — and how MindBridge is helping close the gap.
+              A quick snapshot of the challenge — and how SafeSpace is helping close the gap.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -129,10 +129,10 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="card p-6 border-brand-200 bg-brand-50 dark:border-brand-800 dark:bg-brand-900/15">
-              <p className="text-xs text-brand-700 dark:text-brand-300">MindBridge Outcome</p>
+              <p className="text-xs text-brand-700 dark:text-brand-300">SafeSpace Outcome</p>
               <p className="text-4xl font-bold text-foreground mt-2">100%</p>
               <p className="text-sm text-muted-foreground mt-2">
-                of MindBridge clients report meaningful improvement within the first month.
+                of SafeSpace clients report meaningful improvement within the first month.
               </p>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-20 bg-muted/30">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="section-title">How MindBridge Works</h2>
+            <h2 className="section-title">How SafeSpace Works</h2>
             <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
               A guided journey from finding care to lasting change.
             </p>
@@ -248,7 +248,7 @@ export default function LandingPage() {
           <div className="space-y-3">
             {[
               {
-                q: 'Is MindBridge SL available across Sri Lanka?',
+                q: 'Is SafeSpace Lanka available across Sri Lanka?',
                 a: 'Yes — our platform connects clients in all 9 provinces with practitioners. Online sessions are available island-wide and to Sri Lankan expats abroad.'
               },
               {
@@ -309,7 +309,7 @@ export default function LandingPage() {
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <span className="font-bold">MindBridge SL</span>
+                <span className="font-bold">SafeSpace Lanka</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Mental health support for every province, every language, every journey.
@@ -342,7 +342,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} MindBridge SL. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} SafeSpace Lanka. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <a href="#" aria-label="Twitter" className="hover:text-foreground transition-colors">
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>

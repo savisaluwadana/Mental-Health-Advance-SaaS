@@ -14,14 +14,14 @@ import {
 @Injectable()
 export class AdminService {
   private platformSettings = {
-    platformName: 'MindBridge SL',
+    platformName: 'SafeSpace Lanka',
     registrationsOpen: true,
     practitionerAutoVerify: false,
     crisisBannerEnabled: true,
     maintenanceMode: false,
     defaultSessionDuration: 60,
     supportedLanguages: ['English', 'Sinhala', 'Tamil'],
-    supportEmail: 'support@mindbridge.lk',
+    supportEmail: 'support@safespacelanka.lk',
   }
 
   constructor(private readonly prisma: PrismaService) {}

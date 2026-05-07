@@ -69,7 +69,7 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
               d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </div>
-        <span className="text-sm font-bold">MindBridge<span className="text-brand-600"> SL</span></span>
+        <span className="text-sm font-bold">SafeSpace<span className="text-brand-600"> SL</span></span>
       </div>
 
       {/* Navigation */}
@@ -163,7 +163,7 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
-          <span className="text-sm font-semibold">MindBridge<span className="text-brand-600"> SL</span></span>
+          <span className="text-sm font-semibold">SafeSpace<span className="text-brand-600"> SL</span></span>
         </div>
         <ThemeToggle size="sm" />
       </div>
@@ -184,7 +184,7 @@ export function DashboardSidebar({ role }: { role: 'client' | 'psychologist' | '
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <span className="text-sm font-bold">MindBridge<span className="text-brand-600"> SL</span></span>
+                <span className="text-sm font-bold">SafeSpace<span className="text-brand-600"> SL</span></span>
               </div>
               <button
                 aria-label="Close menu"

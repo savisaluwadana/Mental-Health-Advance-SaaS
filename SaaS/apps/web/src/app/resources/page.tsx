@@ -164,7 +164,7 @@ export default async function ResourcesPage() {
           {/* Documentation */}
           <section id="documentation" className="mt-16">
             <div className="rounded-2xl border border-brand-100 bg-brand-50/50 p-6 sm:p-8 dark:border-brand-900/30 dark:bg-brand-950/20 mb-8">
-              <h2 className="text-2xl font-bold">How to Use MindBridge SL</h2>
+              <h2 className="text-2xl font-bold">How to Use SafeSpace Lanka</h2>
               <p className="text-muted-foreground mt-2 max-w-2xl">
                 Simple guidance for clients, practitioners, and families using the platform for mental health support.
               </p>

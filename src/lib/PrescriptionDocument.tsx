@@ -204,13 +204,13 @@ export function PrescriptionDocument({
     <Document
       title={`Prescription - ${clientName}`}
       author={psychiatristName}
-      subject="Medical Prescription — MindBridge SL"
+      subject="Medical Prescription — SafeSpace Lanka"
     >
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.brandName}>MindBridge SL</Text>
+            <Text style={styles.brandName}>SafeSpace Lanka</Text>
             <Text style={styles.brandTagline}>Mental Health Platform — Sri Lanka</Text>
           </View>
           <View>
@@ -297,14 +297,14 @@ export function PrescriptionDocument({
             )}
             <View style={styles.signatureLine} />
             <Text style={styles.signatureLabel}>Official Seal</Text>
-            <Text style={[styles.signatureLabel, { marginTop: 2 }]}>MindBridge SL</Text>
+            <Text style={[styles.signatureLabel, { marginTop: 2 }]}>SafeSpace Lanka</Text>
           </View>
         </View>
 
         {/* Footer */}
         <View style={styles.footer} fixed>
-          <Text>MindBridge SL — Confidential Medical Document</Text>
-          <Text>For queries: support@mindbridge.lk</Text>
+          <Text>SafeSpace Lanka — Confidential Medical Document</Text>
+          <Text>For queries: support@safespacelanka.lk</Text>
           <Text>Page 1 of 1</Text>
         </View>
       </Page>

@@ -57,7 +57,7 @@
     })
 
     httpServer.listen(port, () => {
-      console.log(`\nMindBridge SL running at http://${hostname}:${port}\n`)
+      console.log(`\nSafeSpace Lanka running at http://${hostname}:${port}\n`)
     })
   })
 */

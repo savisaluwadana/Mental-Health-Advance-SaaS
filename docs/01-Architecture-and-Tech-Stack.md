@@ -1,6 +1,6 @@
 # 1. Architecture & Tech Stack
 
-MindBridge SL is a full-stack mental health platform designed specifically for the Sri Lankan context, serving all 9 provinces in 3 languages (Sinhala, Tamil, English).
+SafeSpace Lanka is a full-stack mental health platform designed specifically for the Sri Lankan context, serving all 9 provinces in 3 languages (Sinhala, Tamil, English).
 
 ## Core Technologies
 - **Framework:** Next.js 14 (App Router)

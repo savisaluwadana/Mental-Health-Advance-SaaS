@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
-const SEEN_KEY = 'mindbridge_lang_picked'
-const LS_KEY = 'mindbridge_lang'
+const SEEN_KEY = 'safespace_lanka_lang_picked'
+const LS_KEY = 'safespace_lanka_lang'
 
 const LANGUAGES = [
   {
@@ -136,7 +136,7 @@ export function LanguagePickerModal() {
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <h1 className="text-xl font-bold text-white mb-1">MindBridge SL</h1>
+              <h1 className="text-xl font-bold text-white mb-1">SafeSpace Lanka</h1>
               <p className="text-brand-200 text-sm">Choose your preferred language to continue</p>
               <p className="text-brand-300 text-xs mt-0.5">
                 ඔබට ඕනෑ භාෂාව තෝරන්න · உங்கள் மொழியை தேர்ந்தெடுக்கவும்

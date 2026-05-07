@@ -20,13 +20,13 @@ async function seed() {
 
   const User = mongoose.models.User || mongoose.model('User', userSchema)
 
-  const adminEmail = 'admin@mindbridge.lk'
+  const adminEmail = 'admin@safespacelanka.lk'
   const password = 'AdminPassword123!'
   
   const existing = await User.findOne({ email: adminEmail })
   if (existing) {
     if (existing.role === 'admin') {
-      console.log('Admin user already exists. Login credentials: admin@mindbridge.lk / AdminPassword123!')
+      console.log('Admin user already exists. Login credentials: admin@safespacelanka.lk / AdminPassword123!')
       process.exit(0)
     } else {
       existing.role = 'admin'
@@ -39,7 +39,7 @@ async function seed() {
   const hashedPassword = await bcrypt.hash(password, 10)
   
   await User.create({
-    name: 'MindBridge System Admin',
+    name: 'SafeSpace System Admin',
     email: adminEmail,
     hashedPassword,
     role: 'admin',

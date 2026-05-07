@@ -1,6 +1,6 @@
-# MindBridge SaaS Refactor
+# SafeSpace SaaS Refactor
 
-This folder contains the refactored MindBridge mental health SaaS platform:
+This folder contains the refactored SafeSpace mental health SaaS platform:
 
 - `apps/web`: Next.js frontend for public discovery, auth, and dashboards.
 - `apps/api`: NestJS backend with JWT auth, RBAC, and Prisma.
@@ -21,10 +21,10 @@ The web app runs on `http://localhost:3000`; the API runs on `http://localhost:4
 
 ## Demo Accounts
 
-- Client: `client@mindbridge.lk` / `MindBridge123!`
-- Psychologist: `psychologist@mindbridge.lk` / `MindBridge123!`
-- Psychiatrist: `psychiatrist@mindbridge.lk` / `MindBridge123!`
-- Admin: `admin@mindbridge.lk` / `MindBridge123!`
+- Client: `client@safespacelanka.lk` / `SafeSpace123!`
+- Psychologist: `psychologist@safespacelanka.lk` / `SafeSpace123!`
+- Psychiatrist: `psychiatrist@safespacelanka.lk` / `SafeSpace123!`
+- Admin: `admin@safespacelanka.lk` / `SafeSpace123!`
 
 ## Architecture Notes
 

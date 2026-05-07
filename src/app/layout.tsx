@@ -48,8 +48,8 @@ const arima = Arima({
 
 export const metadata: Metadata = {
   title: {
-    default: 'MindBridge SL — Mental Health Platform for Sri Lanka',
-    template: '%s | MindBridge SL',
+    default: 'SafeSpace Lanka — Mental Health Platform for Sri Lanka',
+    template: '%s | SafeSpace Lanka',
   },
   description:
     'Connecting Sri Lankans with licensed therapists and psychiatrists. Book sessions, track your mood, and access mental health resources — island-wide and for expats.',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_LK',
-    siteName: 'MindBridge SL',
+    siteName: 'SafeSpace Lanka',
   },
 }
 

@@ -6,7 +6,7 @@ export class HealthController {
   check() {
     return {
       status: 'ok',
-      service: 'mindbridge-api',
+      service: 'safespace-lanka-api',
       timestamp: new Date().toISOString(),
     }
   }

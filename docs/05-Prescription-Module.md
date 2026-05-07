@@ -1,6 +1,6 @@
 # 5. Prescription Module
 
-MindBridge SL includes a fully compliant digital prescription generation system, securely locked exclusively to the `psychiatrist` role. Psychologists are programmatically barred from accessing this route.
+SafeSpace Lanka includes a fully compliant digital prescription generation system, securely locked exclusively to the `psychiatrist` role. Psychologists are programmatically barred from accessing this route.
 
 ## Zero-Persistence Architecture
 The system is designed to generate medical documents on the fly without ever saving a `.pdf` file to the server's disk or to cloud object storage like AWS S3. This significantly reduces the HIPAA/data-compliance burden and decreases server costs.

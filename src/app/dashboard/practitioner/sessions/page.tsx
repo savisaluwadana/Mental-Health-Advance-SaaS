@@ -113,7 +113,7 @@ function ReadmePanel() {
               Overview
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              MindBridge SL uses external platforms for video calls. You create the meeting on{' '}
+              SafeSpace Lanka uses external platforms for video calls. You create the meeting on{' '}
               <strong>Google Meet</strong> or <strong>Microsoft Teams</strong>, copy the join link,
               and paste it here. Your client will immediately see a <strong>Join</strong> button on
               their dashboard — they need no account on the platform.

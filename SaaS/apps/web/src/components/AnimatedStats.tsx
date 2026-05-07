@@ -46,7 +46,7 @@ export function AnimatedStats() {
         ),
       },
       {
-        label: 'Minds Bridged',
+        label: 'People Supported',
         value: 5000,
         suffix: '+',
         icon: (

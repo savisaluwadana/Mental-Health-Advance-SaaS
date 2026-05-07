@@ -73,7 +73,7 @@ export default function AdminOverviewPage() {
       <div className="card overflow-hidden border-brand-200 bg-gradient-to-br from-brand-50 via-card to-blue-50 p-8 dark:border-brand-900 dark:from-brand-950/30 dark:via-card dark:to-blue-950/20">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-600 dark:text-brand-300">Admin Command Center</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight">Complete platform control for MindBridge SL</h1>
+          <h1 className="mt-3 text-4xl font-bold tracking-tight">Complete platform control for SafeSpace Lanka</h1>
           <p className="mt-3 text-muted-foreground">
             Manage users, care providers, clinical operations, safety workflows, content, prescriptions, and global platform settings from one CMS-style console.
           </p>

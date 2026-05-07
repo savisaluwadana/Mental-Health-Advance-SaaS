@@ -110,10 +110,10 @@ export default function RegisterPage() {
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
-            <span className="text-xl font-bold">MindBridge<span className="text-brand-600"> SL</span></span>
+            <span className="text-xl font-bold">SafeSpace<span className="text-brand-600"> SL</span></span>
           </Link>
           <h1 className="text-2xl font-bold">Create your account</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Join MindBridge SL — your mental health journey starts here</p>
+          <p className="text-muted-foreground mt-1 text-sm">Join SafeSpace Lanka — your mental health journey starts here</p>
         </div>
 
         <div className="card p-6 sm:p-8">

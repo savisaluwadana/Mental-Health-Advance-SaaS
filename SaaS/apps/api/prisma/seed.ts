@@ -3,7 +3,7 @@ import { PrismaClient, Role, SessionStatus, SessionType } from '@prisma/client'
 import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
-const password = 'MindBridge123!'
+const password = 'SafeSpace123!'
 
 async function upsertUser(data: {
   name: string
@@ -44,15 +44,15 @@ async function upsertUser(data: {
 
 async function main() {
   const admin = await upsertUser({
-    name: 'MindBridge Admin',
-    email: 'admin@mindbridge.lk',
+    name: 'SafeSpace Admin',
+    email: 'admin@safespacelanka.lk',
     role: Role.admin,
     verified: true,
   })
 
   const client = await upsertUser({
     name: 'Nila Perera',
-    email: 'client@mindbridge.lk',
+    email: 'client@safespacelanka.lk',
     role: Role.client,
     province: 'Western',
     languages: ['Sinhala', 'English'],
@@ -61,7 +61,7 @@ async function main() {
 
   const psychologist = await upsertUser({
     name: 'Dr. Anjali Fernando',
-    email: 'psychologist@mindbridge.lk',
+    email: 'psychologist@safespacelanka.lk',
     role: Role.psychologist,
     province: 'Western',
     languages: ['Sinhala', 'English'],
@@ -74,7 +74,7 @@ async function main() {
 
   await upsertUser({
     name: 'Dr. Arul Nadarajah',
-    email: 'psychiatrist@mindbridge.lk',
+    email: 'psychiatrist@safespacelanka.lk',
     role: Role.psychiatrist,
     province: 'Northern',
     languages: ['Tamil', 'English'],
@@ -114,7 +114,7 @@ async function main() {
       duration: 60,
       type: SessionType.online,
       status: SessionStatus.confirmed,
-      meetingLink: 'https://meet.mindbridge.local/demo',
+      meetingLink: 'https://meet.safespace.local/demo',
     },
   })
 
