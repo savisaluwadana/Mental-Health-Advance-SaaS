@@ -8,7 +8,26 @@ export const metadata: Metadata = {
   description: 'Browse verified psychologists and psychiatrists in Sri Lanka. Filter by province, language, and session type.',
 }
 
-export default function TherapistsPage() {
+type TherapistsPageProps = {
+  searchParams?: {
+    province?: string
+    language?: string
+    type?: string
+    role?: string
+    search?: string
+    need?: string
+  }
+}
+
+export default function TherapistsPage({ searchParams = {} }: TherapistsPageProps) {
+  const initialFilters = {
+    province: searchParams.province ?? '',
+    language: searchParams.language ?? '',
+    type: searchParams.type === 'in-person' ? 'physical' : searchParams.type ?? '',
+    role: searchParams.role ?? '',
+    search: searchParams.search ?? searchParams.need ?? '',
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <PublicNavbar />
@@ -37,7 +56,7 @@ export default function TherapistsPage() {
             <h2 className="section-title">Find Your Therapist</h2>
             <p className="mt-3 text-muted-foreground">Browse our network of licensed practitioners across Sri Lanka.</p>
           </div>
-          <PractitionerDirectory />
+          <PractitionerDirectory initialFilters={initialFilters} />
         </div>
       </section>
     </div>

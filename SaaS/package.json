@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace @mindbridge/api & npm run dev --workspace @mindbridge/web",
+    "dev": "node scripts/dev.mjs",
     "build": "npm run build --workspace @mindbridge/shared && npm run build --workspace @mindbridge/api && npm run build --workspace @mindbridge/web",
     "lint": "npm run lint --workspace @mindbridge/api && npm run lint --workspace @mindbridge/web",
     "db:generate": "npm run db:generate --workspace @mindbridge/api",

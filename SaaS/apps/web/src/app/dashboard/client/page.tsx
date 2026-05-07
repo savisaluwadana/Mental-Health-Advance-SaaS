@@ -27,24 +27,24 @@ export default async function ClientDashboardHome() {
   }
 
   return (
-    <div className="animate-fade-in space-y-8">
+    <div className="animate-fade-in space-y-10">
       {/* Greeting */}
       <div>
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-4xl font-bold">
           {greeting()}, {session!.user.name?.split(' ')[0]}
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-2 text-lg">
           {format(new Date(), 'EEEE, d MMMM yyyy')}
         </p>
       </div>
 
       {/* Today's mood prompt */}
       {!todayMood && (
-        <div className="card p-6 border-brand-200 bg-gradient-to-r from-brand-50 to-background dark:from-brand-900/20 dark:border-brand-800">
+        <div className="card p-7 border-brand-200 bg-gradient-to-r from-brand-50 to-background dark:from-brand-900/20 dark:border-brand-800">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
             <div>
-              <h2 className="font-semibold text-lg">How are you feeling today?</h2>
-              <p className="text-muted-foreground text-sm mt-1">
+              <h2 className="font-semibold text-2xl">How are you feeling today?</h2>
+              <p className="text-muted-foreground mt-2">
                 You haven&apos;t logged your mood yet. It takes just a moment.
               </p>
             </div>
@@ -75,7 +75,7 @@ export default async function ClientDashboardHome() {
       )}
 
       {/* Quick stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {[
           { label: 'Upcoming Sessions', value: upcomingSessions.length, icon: 'US', href: '/dashboard/client/schedule' },
           { label: 'Active Goals', value: activeGoals.length, icon: 'AG', href: '/dashboard/client/goals' },
@@ -84,9 +84,9 @@ export default async function ClientDashboardHome() {
         ].map((stat) => (
           <Link key={stat.label} href={stat.href}
             className="stat-card hover:shadow-md transition-shadow cursor-pointer group">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{stat.icon}</span>
-            <p className="stat-value text-2xl group-hover:text-brand-600 transition-colors">{stat.value}</p>
-            <p className="stat-label text-xs">{stat.label}</p>
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">{stat.icon}</span>
+            <p className="stat-value text-4xl group-hover:text-brand-600 transition-colors">{stat.value}</p>
+            <p className="stat-label text-base">{stat.label}</p>
           </Link>
         ))}
       </div>
@@ -94,26 +94,26 @@ export default async function ClientDashboardHome() {
       {/* Upcoming sessions */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Upcoming Sessions</h2>
-          <Link href="/dashboard/client/schedule" className="text-sm text-brand-600 hover:underline">
+          <h2 className="text-2xl font-semibold">Upcoming Sessions</h2>
+          <Link href="/dashboard/client/schedule" className="text-base font-medium text-brand-600 hover:underline">
             Book more →
           </Link>
         </div>
         {upcomingSessions.length === 0 ? (
-          <div className="card p-8 text-center">
+          <div className="card p-10 text-center">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 7V3m8 4V3M5 11h14M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <p className="font-medium">No upcoming sessions</p>
-            <p className="text-sm text-muted-foreground mb-4">Book a session with one of our practitioners</p>
+            <p className="text-xl font-medium">No upcoming sessions</p>
+            <p className="mb-5 mt-2 text-muted-foreground">Book a session with one of our practitioners</p>
             <Link href="/dashboard/client/schedule" className="btn-primary">Find a Therapist</Link>
           </div>
         ) : (
           <div className="space-y-3">
             {upcomingSessions.map((s: any) => (
-              <div key={s._id.toString()} className="card p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+              <div key={s._id.toString()} className="card p-5 flex flex-col sm:flex-row sm:items-center gap-5">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                   {s.type === 'online' ? 'ON' : 'IP'}
                 </div>
@@ -146,15 +146,15 @@ export default async function ClientDashboardHome() {
       {activeGoals.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Active Goals</h2>
-            <Link href="/dashboard/client/goals" className="text-sm text-brand-600 hover:underline">
+            <h2 className="text-2xl font-semibold">Active Goals</h2>
+            <Link href="/dashboard/client/goals" className="text-base font-medium text-brand-600 hover:underline">
               View all →
             </Link>
           </div>
           <div className="space-y-2">
             {activeGoals.map((goal: any) => (
-              <div key={goal._id.toString()} className="card p-4 flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">GO</span>
+              <div key={goal._id.toString()} className="card p-5 flex items-center gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">GO</span>
                 <div className="flex-1">
                   <p className="font-medium">{goal.title}</p>
                   {goal.targetDate && (

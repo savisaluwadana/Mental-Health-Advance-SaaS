@@ -67,7 +67,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-libre-baskerville), 'Libre Baskerville', var(--font-abhaya-libre), 'Abhaya Libre', var(--font-arima), 'Arima', serif;
+    font-family: Georgia, Cambria, 'Times New Roman', serif;
     @apply font-semibold tracking-tight;
   }
 
@@ -153,6 +153,62 @@
   .stat-value {
     @apply text-3xl font-bold;
   }
+}
+
+@keyframes float-soft {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.03);
+  }
+}
+
+.animate-float {
+  animation: float-soft 4.5s ease-in-out infinite;
+}
+
+.client-dashboard-shell {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.client-dashboard-shell .card {
+  @apply rounded-2xl;
+}
+
+.client-dashboard-shell .text-xs {
+  font-size: 0.875rem;
+  line-height: 1.45rem;
+}
+
+.client-dashboard-shell .text-sm {
+  font-size: 1rem;
+  line-height: 1.65rem;
+}
+
+.client-dashboard-shell .stat-card {
+  @apply p-7 gap-3;
+}
+
+.client-dashboard-shell .stat-label {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.client-dashboard-shell .stat-value {
+  font-size: 2.35rem;
+  line-height: 2.7rem;
+}
+
+.client-dashboard-shell .sidebar-link {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  @apply px-4 py-3;
+}
+
+.client-dashboard-shell aside {
+  width: 17rem;
 }
 
 /* Scrollbar styling */

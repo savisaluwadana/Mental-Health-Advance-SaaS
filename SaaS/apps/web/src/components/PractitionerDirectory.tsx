@@ -7,6 +7,7 @@ const PROVINCES = ['Western', 'Central', 'Southern', 'Northern', 'Eastern', 'Nor
 const LANGUAGES = ['English', 'Sinhala', 'Tamil']
 
 interface Practitioner {
+  id?: string
   _id: string
   name: string
   role: string
@@ -19,10 +20,20 @@ interface Practitioner {
   avatar?: string
 }
 
-export function PractitionerDirectory() {
+type PractitionerFilters = {
+  province: string
+  language: string
+  type: string
+  role: string
+  search: string
+}
+
+const emptyFilters: PractitionerFilters = { province: '', language: '', type: '', role: '', search: '' }
+
+export function PractitionerDirectory({ initialFilters = emptyFilters }: { initialFilters?: PractitionerFilters }) {
   const [practitioners, setPractitioners] = useState<Practitioner[]>([])
   const [loading, setLoading] = useState(true)
-  const [filters, setFilters] = useState({ province: '', language: '', type: '', role: '', search: '' })
+  const [filters, setFilters] = useState<PractitionerFilters>(initialFilters)
 
   const fetchPractitioners = useCallback(async () => {
     setLoading(true)
@@ -36,7 +47,7 @@ export function PractitionerDirectory() {
     try {
       const res = await fetch(`/api/practitioners?${params}`)
       const data = await res.json()
-      setPractitioners(Array.isArray(data) ? data : [])
+      setPractitioners(Array.isArray(data) ? data : Array.isArray(data?.practitioners) ? data.practitioners : [])
     } catch {
       setPractitioners([])
     }
@@ -135,7 +146,7 @@ export function PractitionerDirectory() {
           <p className="text-muted-foreground text-sm mt-1">
             Try adjusting your filters, or{' '}
             <button
-              onClick={() => setFilters({ province: '', language: '', type: '', role: '', search: '' })}
+              onClick={() => setFilters(emptyFilters)}
               className="text-brand-600 hover:underline font-medium"
             >
               clear all filters
@@ -151,7 +162,7 @@ export function PractitionerDirectory() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {practitioners.map((p) => (
-            <div key={p._id}
+            <div key={p.id ?? p._id}
               className="rounded-xl border border-border bg-card p-6 hover:shadow-md hover:border-brand-200 dark:hover:border-brand-800 transition-all group">
               <div className="flex items-start gap-4 mb-4">
                 {p.avatar ? (

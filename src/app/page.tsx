@@ -24,7 +24,6 @@ export default function LandingPage() {
             <div className="max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 dark:border-brand-700/30 dark:bg-brand-900/20 dark:text-brand-300">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse-slow" />
-              Sri Lanka's verified mental health network
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-foreground md:text-6xl lg:text-7xl">
               SafeSpace{' '}

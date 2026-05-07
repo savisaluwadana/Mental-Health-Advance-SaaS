@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { PublicNavbar } from '@/components/PublicNavbar'
-import { AnimatedStats } from '@/components/AnimatedStats'
+import { HeroExperience } from '@/components/HeroExperience'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -13,89 +13,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background">
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-16">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#F0FBF9_0%,#ffffff_46%,#D7F1EA_100%)] dark:bg-[linear-gradient(135deg,#0F0F0F_0%,#1D1D1D_54%,#003B35_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24 md:py-36">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 dark:border-brand-700/30 dark:bg-brand-900/20 dark:text-brand-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse-slow" />
-              Sri Lanka's verified mental health network
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-foreground md:text-6xl lg:text-7xl">
-              SafeSpace{' '}
-              <span className="bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent">
-                Lanka
-              </span>
-            </h1>
-            <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              Private support from verified psychologists, psychiatrists, and counsellors. Book online or in person,
-              track your progress, and keep every step of your care in one secure platform.
-            </p>
-            <div className="mt-6 rounded-2xl border border-brand-100 bg-card/90 p-4 shadow-xl shadow-brand-950/5 backdrop-blur dark:border-white/10">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="text"
-                  placeholder="City, province, or specialty"
-                  className="input-field flex-1"
-                  aria-label="Search by location"
-                />
-                <button className="btn-primary px-5">Search</button>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {['Trauma', 'Addiction', 'Chronic Pain', 'Depression', 'Recovery'].map((c) => (
-                  <button
-                    key={c}
-                    className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-sm text-brand-700 hover:bg-brand-100 dark:border-brand-800 dark:bg-brand-900/20 dark:text-brand-300 dark:hover:bg-brand-900/40"
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-4 text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">I need support with</span>{' '}
-              <span className="font-semibold text-brand-600">anxiety</span>
-              <span className="ml-1 inline-block h-4 w-[2px] align-middle bg-brand-600 animate-pulse" />
-            </div>
-            <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
-              <Link href="/therapists" className="btn-primary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3">
-                Match With a Specialist
-              </Link>
-              <Link href="#how-it-works" className="btn-secondary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3">
-                See the Experience
-              </Link>
-            </div>
-            <AnimatedStats />
-            </div>
-            <div className="relative">
-              <div className="absolute -inset-4 -z-10 rounded-3xl border border-brand-100/70 bg-brand-50/70 shadow-2xl shadow-brand-950/10 dark:border-white/10 dark:bg-white/5" />
-              <div className="glass-card overflow-hidden">
-                <div className="aspect-[4/3] w-full bg-[linear-gradient(135deg,#003B35_0%,#003862_48%,#51B291_100%)] p-6 text-white">
-                  <div className="flex h-full flex-col justify-between rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-100">Private Care Console</p>
-                      <h2 className="mt-3 max-w-sm text-3xl font-bold leading-tight">Personalized support, coordinated with clarity.</h2>
-                    </div>
-                    <div className="grid grid-cols-3 gap-3 text-sm">
-                      {['Verified', 'Secure', 'Multilingual'].map((item) => (
-                        <div key={item} className="rounded-lg border border-white/15 bg-white/10 p-3">
-                          <span className="block h-1 w-8 rounded-full bg-brand-300" />
-                          <span className="mt-3 block font-semibold">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroExperience />
 
       {/* Impact Snapshot */}
       <section className="py-16">
