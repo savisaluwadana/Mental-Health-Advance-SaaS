@@ -25,8 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json({ error: 'Prescription not found' }, { status: 404 })
   }
 
-  const pdf = await renderToBuffer(
-    React.createElement(PrescriptionDocument, {
+  const document = React.createElement(PrescriptionDocument, {
       prescriptionId: prescription.id,
       issuedAt: new Date(prescription.issuedAt).toLocaleDateString(),
       expiresAt: new Date(prescription.expiresAt).toLocaleDateString(),
@@ -37,10 +36,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       medications: prescription.medications ?? [],
       signatureDataUrl: prescription.signatureDataUrl,
       sealDataUrl: prescription.sealDataUrl,
-    }),
-  )
+    })
+  const pdf = await renderToBuffer(document as any)
 
-  return new NextResponse(pdf, {
+  return new NextResponse(new Uint8Array(pdf), {
     headers: {
       'content-type': 'application/pdf',
       'content-disposition': `attachment; filename="prescription-${params.id.slice(-8)}.pdf"`,

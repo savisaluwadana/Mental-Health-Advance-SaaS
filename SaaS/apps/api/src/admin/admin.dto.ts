@@ -1,5 +1,5 @@
-import { Role } from '@prisma/client'
-import { IsArray, IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator'
+import { AlertStatus, Role, SessionStatus } from '@prisma/client'
+import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator'
 
 export class UpdateUserDto {
   @IsOptional()
@@ -56,4 +56,60 @@ export class CreatePractitionerDto {
   @IsOptional()
   @IsString()
   bio?: string
+}
+
+export class UpdateAdminSessionDto {
+  @IsOptional()
+  @IsEnum(SessionStatus)
+  status?: SessionStatus
+
+  @IsOptional()
+  @IsString()
+  meetingLink?: string
+
+  @IsOptional()
+  @IsNumber()
+  @Min(15)
+  duration?: number
+}
+
+export class UpdateSafetyAlertDto {
+  @IsEnum(AlertStatus)
+  status!: AlertStatus
+}
+
+export class UpdatePlatformSettingsDto {
+  @IsOptional()
+  @IsString()
+  platformName?: string
+
+  @IsOptional()
+  @IsBoolean()
+  registrationsOpen?: boolean
+
+  @IsOptional()
+  @IsBoolean()
+  practitionerAutoVerify?: boolean
+
+  @IsOptional()
+  @IsBoolean()
+  crisisBannerEnabled?: boolean
+
+  @IsOptional()
+  @IsBoolean()
+  maintenanceMode?: boolean
+
+  @IsOptional()
+  @IsNumber()
+  @Min(15)
+  defaultSessionDuration?: number
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  supportedLanguages?: string[]
+
+  @IsOptional()
+  @IsString()
+  supportEmail?: string
 }

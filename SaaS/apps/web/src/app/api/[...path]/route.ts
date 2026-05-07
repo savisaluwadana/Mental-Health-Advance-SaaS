@@ -80,10 +80,17 @@ function normalizeResponse(path: string, data: any): any {
   if (path === 'messages/flags' && Array.isArray(data.alerts)) return data.alerts.map(normalizeDoc)
 
   if (path === 'practitioners' && Array.isArray(data.practitioners)) return data.practitioners.map(normalizeUser)
+  if (path === 'admin/stats' && data.stats) return data.stats
   if (path === 'admin/users' && Array.isArray(data.users)) return data.users.map(normalizeUser)
   if (path.startsWith('admin/users/') && data.user) return normalizeUser(data.user)
   if (path === 'admin/keywords' && Array.isArray(data.keywords)) return data.keywords.map(normalizeDoc)
   if (path === 'admin/keywords' && data.keyword) return normalizeDoc(data.keyword)
+  if (path === 'admin/sessions' && Array.isArray(data.sessions)) return data.sessions.map(normalizeSession)
+  if (path.startsWith('admin/sessions/') && data.session) return normalizeSession(data.session)
+  if (path === 'admin/prescriptions' && Array.isArray(data.prescriptions)) return data.prescriptions.map(normalizePrescription)
+  if (path === 'admin/safety-alerts' && Array.isArray(data.alerts)) return data.alerts.map(normalizeSafetyAlert)
+  if (path.startsWith('admin/safety-alerts/') && data.alert) return normalizeSafetyAlert(data.alert)
+  if (path === 'admin/settings' && data.settings) return data.settings
 
   if (path === 'articles' && Array.isArray(data.articles)) return data.articles.map(normalizeDoc)
   if (path === 'articles' && data.article) return normalizeDoc(data.article)
@@ -131,5 +138,15 @@ function normalizePrescription(prescription: any) {
     ...normalized,
     clientId: normalizeUser(prescription.clientId ?? prescription.client),
     psychiatristId: normalizeUser(prescription.psychiatristId ?? prescription.psychiatrist),
+  }
+}
+
+function normalizeSafetyAlert(alert: any) {
+  const normalized = normalizeDoc(alert)
+  return {
+    ...normalized,
+    clientId: normalizeUser(alert.clientId ?? alert.client),
+    practitionerId: normalizeUser(alert.practitionerId ?? alert.practitioner),
+    messageId: normalizeDoc(alert.messageId ?? alert.message),
   }
 }

@@ -1,22 +1,90 @@
 import { ConflictException, Injectable } from '@nestjs/common'
-import { Role } from '@prisma/client'
+import { AlertStatus, PrescriptionStatus, Role, SessionStatus, SessionType } from '@prisma/client'
 import * as bcrypt from 'bcryptjs'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateKeywordDto, CreatePractitionerDto, UpdateUserDto } from './admin.dto'
+import {
+  CreateKeywordDto,
+  CreatePractitionerDto,
+  UpdateAdminSessionDto,
+  UpdatePlatformSettingsDto,
+  UpdateSafetyAlertDto,
+  UpdateUserDto,
+} from './admin.dto'
 
 @Injectable()
 export class AdminService {
+  private platformSettings = {
+    platformName: 'MindBridge SL',
+    registrationsOpen: true,
+    practitionerAutoVerify: false,
+    crisisBannerEnabled: true,
+    maintenanceMode: false,
+    defaultSessionDuration: 60,
+    supportedLanguages: ['English', 'Sinhala', 'Tamil'],
+    supportEmail: 'support@mindbridge.lk',
+  }
+
   constructor(private readonly prisma: PrismaService) {}
 
   async stats() {
-    const [users, sessions, alerts, prescriptions] = await Promise.all([
+    const [
+      users,
+      clients,
+      practitioners,
+      admins,
+      pendingPractitioners,
+      sessions,
+      pendingSessions,
+      confirmedSessions,
+      completedSessions,
+      cancelledSessions,
+      pendingSafetyAlerts,
+      escalatedSafetyAlerts,
+      prescriptions,
+      articles,
+      keywords,
+    ] = await Promise.all([
       this.prisma.user.count(),
+      this.prisma.user.count({ where: { role: Role.client } }),
+      this.prisma.user.count({ where: { role: { in: [Role.psychologist, Role.psychiatrist, Role.counsellor] } } }),
+      this.prisma.user.count({ where: { role: Role.admin } }),
+      this.prisma.user.count({
+        where: {
+          role: { in: [Role.psychologist, Role.psychiatrist, Role.counsellor] },
+          verified: false,
+        },
+      }),
       this.prisma.session.count(),
-      this.prisma.messageSafetyAlert.count({ where: { status: 'pending' } }),
+      this.prisma.session.count({ where: { status: SessionStatus.pending } }),
+      this.prisma.session.count({ where: { status: SessionStatus.confirmed } }),
+      this.prisma.session.count({ where: { status: SessionStatus.completed } }),
+      this.prisma.session.count({ where: { status: SessionStatus.cancelled } }),
+      this.prisma.messageSafetyAlert.count({ where: { status: AlertStatus.pending } }),
+      this.prisma.messageSafetyAlert.count({ where: { status: AlertStatus.escalated } }),
       this.prisma.prescription.count(),
+      this.prisma.article.count(),
+      this.prisma.keywordAlert.count(),
     ])
 
-    return { stats: { users, sessions, pendingSafetyAlerts: alerts, prescriptions } }
+    return {
+      stats: {
+        users,
+        clients,
+        practitioners,
+        admins,
+        pendingPractitioners,
+        sessions,
+        pendingSessions,
+        confirmedSessions,
+        completedSessions,
+        cancelledSessions,
+        pendingSafetyAlerts,
+        escalatedSafetyAlerts,
+        prescriptions,
+        articles,
+        keywords,
+      },
+    }
   }
 
   async users(filters: { role?: string; search?: string }) {
@@ -128,5 +196,157 @@ export class AdminService {
   async deleteKeyword(id: string) {
     await this.prisma.keywordAlert.delete({ where: { id } })
     return { ok: true }
+  }
+
+  async sessions(filters: { status?: string; type?: string; search?: string }) {
+    const sessions = await this.prisma.session.findMany({
+      where: {
+        ...(filters.status ? { status: filters.status as SessionStatus } : {}),
+        ...(filters.type ? { type: filters.type as SessionType } : {}),
+        ...(filters.search
+          ? {
+              OR: [
+                { client: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { client: { email: { contains: filters.search, mode: 'insensitive' } } },
+                { practitioner: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { practitioner: { email: { contains: filters.search, mode: 'insensitive' } } },
+              ],
+            }
+          : {}),
+      },
+      include: {
+        client: { select: this.userSummarySelect() },
+        practitioner: { select: this.userSummarySelect() },
+      },
+      orderBy: { scheduledAt: 'desc' },
+      take: 250,
+    })
+
+    return { sessions }
+  }
+
+  async updateSession(id: string, dto: UpdateAdminSessionDto) {
+    const session = await this.prisma.session.update({
+      where: { id },
+      data: {
+        status: dto.status,
+        meetingLink: dto.meetingLink,
+        duration: dto.duration,
+      },
+      include: {
+        client: { select: this.userSummarySelect() },
+        practitioner: { select: this.userSummarySelect() },
+      },
+    })
+
+    return { session }
+  }
+
+  async prescriptions(filters: { status?: string; search?: string }) {
+    const prescriptions = await this.prisma.prescription.findMany({
+      where: {
+        ...(filters.status ? { status: filters.status as PrescriptionStatus } : {}),
+        ...(filters.search
+          ? {
+              OR: [
+                { client: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { client: { email: { contains: filters.search, mode: 'insensitive' } } },
+                { psychiatrist: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { psychiatrist: { email: { contains: filters.search, mode: 'insensitive' } } },
+              ],
+            }
+          : {}),
+      },
+      include: {
+        client: { select: this.userSummarySelect() },
+        psychiatrist: { select: this.userSummarySelect() },
+        medications: true,
+      },
+      orderBy: { issuedAt: 'desc' },
+      take: 250,
+    })
+
+    return { prescriptions }
+  }
+
+  async safetyAlerts(filters: { status?: string; search?: string }) {
+    const alerts = await this.prisma.messageSafetyAlert.findMany({
+      where: {
+        ...(filters.status ? { status: filters.status as AlertStatus } : {}),
+        ...(filters.search
+          ? {
+              OR: [
+                { client: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { client: { email: { contains: filters.search, mode: 'insensitive' } } },
+                { practitioner: { name: { contains: filters.search, mode: 'insensitive' } } },
+                { practitioner: { email: { contains: filters.search, mode: 'insensitive' } } },
+                { message: { content: { contains: filters.search, mode: 'insensitive' } } },
+              ],
+            }
+          : {}),
+      },
+      include: {
+        client: { select: this.userSummarySelect() },
+        practitioner: { select: this.userSummarySelect() },
+        message: {
+          select: {
+            id: true,
+            content: true,
+            flagged: true,
+            flagReasons: true,
+            createdAt: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 250,
+    })
+
+    return { alerts }
+  }
+
+  async updateSafetyAlert(id: string, dto: UpdateSafetyAlertDto) {
+    const alert = await this.prisma.messageSafetyAlert.update({
+      where: { id },
+      data: { status: dto.status },
+      include: {
+        client: { select: this.userSummarySelect() },
+        practitioner: { select: this.userSummarySelect() },
+        message: {
+          select: {
+            id: true,
+            content: true,
+            flagged: true,
+            flagReasons: true,
+            createdAt: true,
+          },
+        },
+      },
+    })
+
+    return { alert }
+  }
+
+  settings() {
+    return { settings: this.platformSettings }
+  }
+
+  updateSettings(dto: UpdatePlatformSettingsDto) {
+    this.platformSettings = { ...this.platformSettings, ...dto }
+    return { settings: this.platformSettings }
+  }
+
+  private userSummarySelect() {
+    return {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      verified: true,
+      phone: true,
+      province: true,
+      specialty: true,
+      slmcRegNo: true,
+    } as const
   }
 }
