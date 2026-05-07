@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'SafeSpace Lanka — Mental Health Platform for Sri Lanka',
-  description: 'Connecting Sri Lankans and expats with licensed therapists and psychiatrists — island-wide access to mental health care.',
+  description: 'Private, verified mental health care for Sri Lankans and expats, with online and in-person sessions in Sinhala, Tamil, and English.',
 }
 
 export default function LandingPage() {
@@ -24,23 +24,23 @@ export default function LandingPage() {
             <div className="max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 dark:border-brand-700/30 dark:bg-brand-900/20 dark:text-brand-300">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse-slow" />
-              Sri Lanka’s premium mental health network
+              Sri Lanka's verified mental health network
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-foreground md:text-6xl lg:text-7xl">
-              Elite care,{' '}
+              SafeSpace{' '}
               <span className="bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent">
-                always within reach
+                Lanka
               </span>
             </h1>
             <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              Trusted, verified psychologists and psychiatrists — with private sessions in Sinhala, Tamil, and English.
-              Book online or in‑person and manage your journey in one secure platform.
+              Private support from verified psychologists, psychiatrists, and counsellors. Book online or in person,
+              track your progress, and keep every step of your care in one secure platform.
             </p>
             <div className="mt-6 rounded-2xl border border-brand-100 bg-card/90 p-4 shadow-xl shadow-brand-950/5 backdrop-blur dark:border-white/10">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="text"
-                  placeholder="Address, city, or ZIP code"
+                  placeholder="City, province, or specialty"
                   className="input-field flex-1"
                   aria-label="Search by location"
                 />
@@ -58,7 +58,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mt-4 text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">My mind needs help with</span>{' '}
+              <span className="font-medium text-foreground">I need support with</span>{' '}
               <span className="font-semibold text-brand-600">anxiety</span>
               <span className="ml-1 inline-block h-4 w-[2px] align-middle bg-brand-600 animate-pulse" />
             </div>
@@ -101,44 +101,41 @@ export default function LandingPage() {
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="section-title">The Mental Health Gap — and the Momentum</h2>
+            <h2 className="section-title">Care That Fits Daily Life</h2>
             <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-              A quick snapshot of the challenge — and how SafeSpace is helping close the gap.
+              SafeSpace Lanka brings the essentials of modern care into one simple, culturally aware workflow.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="card p-6">
-              <p className="text-xs text-muted-foreground">Source: UNICEF (placeholder)</p>
-              <p className="text-4xl font-bold text-foreground mt-2">X%</p>
+              <p className="text-xs text-muted-foreground">Coverage</p>
+              <p className="text-4xl font-bold text-foreground mt-2">9</p>
               <p className="text-sm text-muted-foreground mt-2">
-                of people in Sri Lanka experience mental health challenges.
+                provinces supported with online booking and care coordination.
               </p>
             </div>
             <div className="card p-6">
-              <p className="text-xs text-muted-foreground">Source: National survey (placeholder)</p>
-              <p className="text-4xl font-bold text-foreground mt-2">Y%</p>
+              <p className="text-xs text-muted-foreground">Languages</p>
+              <p className="text-4xl font-bold text-foreground mt-2">3</p>
               <p className="text-sm text-muted-foreground mt-2">
-                seek professional support — a critical access gap.
+                Sinhala, Tamil, and English options for easier access.
               </p>
             </div>
             <div className="card p-6">
-              <p className="text-xs text-muted-foreground">Source: Public health report (placeholder)</p>
-              <p className="text-4xl font-bold text-foreground mt-2">Z%</p>
+              <p className="text-xs text-muted-foreground">Safety</p>
+              <p className="text-4xl font-bold text-foreground mt-2">24/7</p>
               <p className="text-sm text-muted-foreground mt-2">
-                are unaware they’re struggling with mental health issues.
+                crisis resources surfaced clearly when urgent support is needed.
               </p>
             </div>
             <div className="card p-6 border-brand-200 bg-brand-50 dark:border-brand-800 dark:bg-brand-900/15">
-              <p className="text-xs text-brand-700 dark:text-brand-300">SafeSpace Outcome</p>
-              <p className="text-4xl font-bold text-foreground mt-2">100%</p>
+              <p className="text-xs text-brand-700 dark:text-brand-300">Privacy</p>
+              <p className="text-4xl font-bold text-foreground mt-2">1</p>
               <p className="text-sm text-muted-foreground mt-2">
-                of SafeSpace clients report meaningful improvement within the first month.
+                secure care record for sessions, notes, goals, mood entries, and prescriptions.
               </p>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-6">
-            Replace placeholders with verified sources before launch.
-          </p>
         </div>
       </section>
 

@@ -5,7 +5,6 @@ import { getServerSession } from 'next-auth'
 import { SessionProvider } from '@/components/SessionProvider'
 import { Toaster } from 'sonner'
 import { GoogleTranslateInit } from '@/components/GoogleTranslate'
-import { LanguagePickerModal } from '@/components/LanguagePickerModal'
 import { authOptions } from '@/lib/auth'
 import './globals.css'
 
@@ -53,7 +52,7 @@ export const metadata: Metadata = {
   },
   description:
     'Connecting Sri Lankans with licensed therapists and psychiatrists. Book sessions, track your mood, and access mental health resources — island-wide and for expats.',
-  keywords: ['mental health', 'therapy', 'Sri Lanka', 'counselling', 'psychiatry', 'mindbridge'],
+  keywords: ['mental health', 'therapy', 'Sri Lanka', 'counselling', 'psychiatry', 'safespace lanka'],
   metadataBase: new URL(process.env.NEXTAUTH_URL || 'http://localhost:3000'),
   openGraph: {
     type: 'website',
@@ -93,7 +92,6 @@ export default async function RootLayout({
               }}
             />
             <GoogleTranslateInit />
-            <LanguagePickerModal />
           </SessionProvider>
         </ThemeProvider>
       </body>
