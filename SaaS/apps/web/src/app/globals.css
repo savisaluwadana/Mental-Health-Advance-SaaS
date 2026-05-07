@@ -169,6 +169,39 @@
   animation: float-soft 4.5s ease-in-out infinite;
 }
 
+.dashboard-shell {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.dashboard-shell > aside {
+  height: 100vh;
+  height: 100dvh;
+  flex-shrink: 0;
+}
+
+.dashboard-main {
+  height: 100vh;
+  height: 100dvh;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 767px) {
+  .dashboard-shell {
+    display: block;
+  }
+
+  .dashboard-main {
+    height: 100vh;
+    height: 100dvh;
+  }
+}
+
 .client-dashboard-shell {
   font-size: 17px;
   line-height: 1.65;

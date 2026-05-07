@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { format } from 'date-fns'
+import { asArray, asItem } from '@/lib/api-data'
 
 const EMOTIONS = ['Happy', 'Calm', 'Anxious', 'Sad', 'Angry', 'Hopeful', 'Overwhelmed', 'Grateful', 'Lonely', 'Excited', 'Tired', 'Confused']
 const MOOD_LABELS: Record<number, string> = {
@@ -21,15 +22,7 @@ const MOOD_LABELS: Record<number, string> = {
 interface MoodEntry { _id: string; date: string; score: number; emotions: string[]; note?: string; sharedWithPractitioner: boolean }
 
 function getMoodEntries(data: unknown): MoodEntry[] {
-  if (Array.isArray(data)) {
-    return data
-  }
-
-  if (data && typeof data === 'object' && Array.isArray((data as { entries?: unknown }).entries)) {
-    return (data as { entries: MoodEntry[] }).entries
-  }
-
-  return []
+  return asArray<MoodEntry>(data, 'entries')
 }
 
 export default function MoodTrackerPage() {
@@ -85,7 +78,12 @@ export default function MoodTrackerPage() {
       body: JSON.stringify({ score, emotions: selectedEmotions, note, sharedWithPractitioner: shared }),
     })
     if (res.ok) {
-      const updated = await res.json()
+      const updated = asItem<MoodEntry>(await res.json(), 'entry')
+      if (!updated) {
+        toast.error('Saved mood, but the response was invalid')
+        setSaving(false)
+        return
+      }
       setTodayLogged(true)
       setEntries((prev) => {
         const today = new Date().toDateString()

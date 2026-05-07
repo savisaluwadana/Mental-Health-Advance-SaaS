@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { asArray, asItem } from '@/lib/api-data'
 
 interface Session { _id: string; clientId: { _id: string; name: string }; scheduledAt: string; status: string; duration: number }
 interface Note { _id: string; content: string; createdAt: string }
@@ -19,9 +20,9 @@ export default function SessionNotesPage() {
 
   useEffect(() => {
     fetch('/api/sessions').then((r) => r.json()).then((data) => {
-      setSessions(data.filter((s: any) => s.status !== 'cancelled'))
+      setSessions(asArray<Session>(data, 'sessions').filter((s) => s.status !== 'cancelled'))
       setLoading(false)
-    })
+    }).catch(() => setLoading(false))
   }, [])
 
   const loadNotes = async (session: Session) => {
@@ -30,8 +31,9 @@ export default function SessionNotesPage() {
     const res = await fetch(`/api/sessions/${session._id}/notes`)
     if (res.ok) {
       const data = await res.json()
-      setNotes(data)
-      setContent(data[0]?.content || '')
+      const nextNotes = asArray<Note>(data, 'note')
+      setNotes(nextNotes)
+      setContent(nextNotes[0]?.content || '')
     }
   }
 
@@ -45,8 +47,8 @@ export default function SessionNotesPage() {
     })
     if (res.ok) {
       toast.success('Note saved')
-      const updated = await res.json()
-      setNotes([updated])
+      const updated = asItem<Note>(await res.json(), 'note')
+      if (updated) setNotes([updated])
     } else {
       toast.error('Failed to save note')
     }

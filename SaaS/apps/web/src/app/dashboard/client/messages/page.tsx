@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import io, { Socket } from 'socket.io-client'
+import { asArray } from '@/lib/api-data'
 
 interface Message { _id: string; senderId: { _id: string; name: string; avatar?: string } | string; receiverId: string; content: string; flagged: boolean; createdAt: string; readAt?: string }
 
@@ -38,7 +39,8 @@ export default function ClientMessagesPage() {
   useEffect(() => {
     if (!session?.user.id) return
     // Load assigned practitioner from profile
-    fetch('/api/sessions?limit=1').then((r) => r.json()).then((sessions) => {
+    fetch('/api/sessions?limit=1').then((r) => r.json()).then((data) => {
+      const sessions = asArray<any>(data, 'sessions')
       if (sessions.length > 0) {
         const pract = sessions[0].practitionerId
         if (pract?._id) {
@@ -47,7 +49,7 @@ export default function ClientMessagesPage() {
           setReceiverId(pract._id)
           setPractitionerName(pract.name || 'Practitioner')
           fetch(`/api/messages?conversationId=${cid}`).then((r) => r.json()).then((msgs) => {
-            setMessages(msgs)
+            setMessages(asArray<Message>(msgs, 'messages'))
             setLoading(false)
             setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
           })
@@ -57,7 +59,7 @@ export default function ClientMessagesPage() {
       } else {
         setLoading(false)
       }
-    })
+    }).catch(() => setLoading(false))
   }, [session?.user.id])
 
   // Socket.io

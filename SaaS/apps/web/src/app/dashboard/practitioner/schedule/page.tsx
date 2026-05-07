@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { asArray } from '@/lib/api-data'
 
 interface Session { _id: string; clientId: { name: string }; scheduledAt: string; status: string; type: string; meetingLink?: string }
 
@@ -11,7 +12,10 @@ export default function PractitionerSchedulePage() {
   const [loading, setLoading] = useState(true)
   const [actioning, setActioning] = useState<string | null>(null)
 
-  const fetchSessions = () => fetch('/api/sessions').then(r => r.json()).then(data => { setSessions(data); setLoading(false) })
+  const fetchSessions = () => fetch('/api/sessions')
+    .then(r => r.json())
+    .then(data => { setSessions(asArray<Session>(data, 'sessions')); setLoading(false) })
+    .catch(() => { setSessions([]); setLoading(false) })
 
   useEffect(() => { fetchSessions() }, [])
 

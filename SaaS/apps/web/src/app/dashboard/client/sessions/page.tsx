@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { format, differenceInMinutes } from 'date-fns'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { asArray } from '@/lib/api-data'
 
 interface Session {
   _id: string
@@ -43,9 +44,9 @@ export default function ClientOnlineSessionsPage() {
   useEffect(() => {
     fetch('/api/sessions')
       .then(r => r.json())
-      .then((data: Session[]) => {
+      .then((data) => {
         // Only show online sessions
-        setSessions(data.filter(s => s.type === 'online'))
+        setSessions(asArray<Session>(data, 'sessions').filter(s => s.type === 'online'))
         setLoading(false)
       })
       .catch(() => { toast.error('Failed to load sessions'); setLoading(false) })

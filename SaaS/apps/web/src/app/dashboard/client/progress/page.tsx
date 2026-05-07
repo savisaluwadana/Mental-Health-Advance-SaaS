@@ -6,24 +6,13 @@ import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts'
 import { format } from 'date-fns'
+import { asArray } from '@/lib/api-data'
 
 interface MoodEntry { _id: string; date: string; score: number }
 interface Goal { _id: string; title: string; completedAt?: string }
 interface SessionEntry { _id: string; scheduledAt: string; status: string }
 
 const COLORS = ['#14b89a', '#e5e7eb']
-
-function getArray<T>(data: unknown, key?: string): T[] {
-  if (Array.isArray(data)) {
-    return data
-  }
-
-  if (key && data && typeof data === 'object' && Array.isArray((data as Record<string, unknown>)[key])) {
-    return (data as Record<string, T[]>)[key]
-  }
-
-  return []
-}
 
 export default function ClientProgressPage() {
   const [moodData, setMoodData] = useState<MoodEntry[]>([])
@@ -39,9 +28,9 @@ export default function ClientProgressPage() {
       fetch('/api/goals').then((r) => r.json()),
       fetch('/api/sessions').then((r) => r.json()),
     ]).then(([mood, g, sess]) => {
-      setMoodData(getArray<MoodEntry>(mood, 'entries'))
-      setGoals(getArray<Goal>(g, 'goals'))
-      setSessions(getArray<SessionEntry>(sess, 'sessions'))
+      setMoodData(asArray<MoodEntry>(mood, 'entries'))
+      setGoals(asArray<Goal>(g, 'goals'))
+      setSessions(asArray<SessionEntry>(sess, 'sessions'))
       setLoading(false)
     }).catch(() => {
       setMoodData([])

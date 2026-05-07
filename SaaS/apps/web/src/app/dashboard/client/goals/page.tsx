@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { asArray, asItem } from '@/lib/api-data'
 
 interface Goal { _id: string; title: string; description?: string; targetDate?: string; completedAt?: string; weeklyCheckIns: { week: string; progressRating: number; note?: string }[] }
 
@@ -15,7 +16,10 @@ export default function GoalsPage() {
   const [celebrating, setCelebrating] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('/api/goals').then((r) => r.json()).then((data) => { setGoals(data); setLoading(false) })
+    fetch('/api/goals')
+      .then((r) => r.json())
+      .then((data) => { setGoals(asArray<Goal>(data, 'goals')); setLoading(false) })
+      .catch(() => { setGoals([]); setLoading(false) })
   }, [])
 
   const handleCheckIn = async (goalId: string) => {
@@ -29,8 +33,8 @@ export default function GoalsPage() {
       }),
     })
     if (res.ok) {
-      const updated = await res.json()
-      setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
+      const updated = asItem<Goal>(await res.json(), 'goal')
+      if (updated) setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
       setCheckInGoalId(null)
       toast.success('Check-in logged!')
     } else { toast.error('Failed to log check-in') }
@@ -44,8 +48,8 @@ export default function GoalsPage() {
       body: JSON.stringify({ id: goalId, completedAt: new Date().toISOString() }),
     })
     if (res.ok) {
-      const updated = await res.json()
-      setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
+      const updated = asItem<Goal>(await res.json(), 'goal')
+      if (updated) setGoals((prev) => prev.map((g) => g._id === goalId ? updated : g))
       setCelebrating(goalId)
       toast.success('Goal completed. Amazing work!')
       setTimeout(() => setCelebrating(null), 3000)

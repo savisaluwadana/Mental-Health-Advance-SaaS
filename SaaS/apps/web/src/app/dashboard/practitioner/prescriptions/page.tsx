@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { format, addMonths } from 'date-fns'
+import { asArray, asItem } from '@/lib/api-data'
 
 interface Medication { name: string; dosage: string; frequency: string; duration: string }
 interface Prescription { _id: string; clientId: { name: string; email: string }; issuedAt: string; expiresAt: string; status: string; medications: Medication[] }
@@ -45,15 +46,15 @@ export default function PrescriptionsPage() {
       fetch('/api/prescriptions').then((r) => r.json()),
       fetch('/api/sessions').then((r) => r.json()),
     ]).then(([presc, sess]) => {
-      setPrescriptions(presc)
+      setPrescriptions(asArray<Prescription>(presc, 'prescriptions'))
       // Extract unique clients from sessions
       const uniqueClients: Record<string, Client> = {}
-      sess.forEach((s: any) => {
+      asArray<any>(sess, 'sessions').forEach((s) => {
         if (s.clientId?._id) uniqueClients[s.clientId._id] = s.clientId
       })
       setClients(Object.values(uniqueClients))
       setLoading(false)
-    })
+    }).catch(() => setLoading(false))
   }, [session])
 
   // Canvas drawing
@@ -131,8 +132,8 @@ export default function PrescriptionsPage() {
     })
     if (res.ok) {
       toast.success('Prescription created!')
-      const newPresc = await res.json()
-      setPrescriptions((prev) => [newPresc, ...prev])
+      const newPresc = asItem<Prescription>(await res.json(), 'prescription')
+      if (newPresc) setPrescriptions((prev) => [newPresc, ...prev])
       setView('list')
     } else {
       const err = await res.json(); toast.error(err.error || 'Failed to create prescription')

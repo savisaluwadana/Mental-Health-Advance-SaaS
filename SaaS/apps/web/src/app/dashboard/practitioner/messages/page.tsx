@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import io, { Socket } from 'socket.io-client'
+import { asArray } from '@/lib/api-data'
 
 interface Client { _id: string; name: string }
 interface Message { _id: string; senderId: { _id: string; name: string } | string; receiverId: string; content: string; createdAt: string }
@@ -31,7 +32,8 @@ export default function PractitionerMessagesPage() {
   const socketRef = useRef<Socket | null>(null)
 
   useEffect(() => {
-    fetch('/api/sessions').then(r => r.json()).then(sessions => {
+    fetch('/api/sessions').then(r => r.json()).then(data => {
+      const sessions = asArray<any>(data, 'sessions')
       const uniqueClients = new Map<string, Client>()
       sessions.forEach((s: any) => {
         if (s.clientId && !uniqueClients.has(s.clientId._id)) {
@@ -40,7 +42,7 @@ export default function PractitionerMessagesPage() {
       })
       setClients(Array.from(uniqueClients.values()))
       setLoading(false)
-    })
+    }).catch(() => setLoading(false))
   }, [])
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function PractitionerMessagesPage() {
     setConversationId(cid)
     
     fetch(`/api/messages?conversationId=${cid}`).then(r => r.json()).then(msgs => {
-      setMessages(msgs)
+      setMessages(asArray<Message>(msgs, 'messages'))
       setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
     })
 

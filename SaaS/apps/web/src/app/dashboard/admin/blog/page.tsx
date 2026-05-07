@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
+import { asArray } from '@/lib/api-data'
 
 interface Article {
   _id: string
@@ -25,7 +26,7 @@ export default function AdminBlogPage() {
       const res = await fetch('/api/articles')
       if (res.ok) {
         const data = await res.json()
-        setArticles(data)
+        setArticles(asArray<Article>(data, 'articles'))
       }
     } catch (e) {
       toast.error('Failed to load articles')

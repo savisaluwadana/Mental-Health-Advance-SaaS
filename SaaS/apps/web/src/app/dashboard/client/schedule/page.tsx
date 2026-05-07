@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { format, addDays } from 'date-fns'
+import { asArray } from '@/lib/api-data'
 
 interface Practitioner { _id: string; name: string; specialty?: string; province?: string; languages: string[]; sessionTypes?: string[]; role: string; slmcRegNo?: string; avatar?: string }
 
@@ -26,8 +27,12 @@ export default function SchedulePage() {
       fetch(`/api/practitioners?${params}`).then((r) => r.json()),
       fetch('/api/sessions').then((r) => r.json()),
     ]).then(([practs, sessions]) => {
-      setPractitioners(practs)
-      setMySessions(sessions)
+      setPractitioners(asArray<Practitioner>(practs, 'practitioners'))
+      setMySessions(asArray<any>(sessions, 'sessions'))
+      setLoading(false)
+    }).catch(() => {
+      setPractitioners([])
+      setMySessions([])
       setLoading(false)
     })
   }, [filters])
@@ -46,7 +51,7 @@ export default function SchedulePage() {
       setSelected(null)
       setSlotDate('')
       const updated = await fetch('/api/sessions').then((r) => r.json())
-      setMySessions(updated)
+      setMySessions(asArray<any>(updated, 'sessions'))
     } else {
       const err = await res.json()
       toast.error(err.error || 'Booking failed')

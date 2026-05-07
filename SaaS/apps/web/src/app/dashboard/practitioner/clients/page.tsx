@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { asArray } from '@/lib/api-data'
 
 interface ClientInfo { _id: string; name: string; email: string; avatar?: string }
 interface Session { _id: string; clientId: ClientInfo; scheduledAt: string; status: string; type: string }
@@ -12,7 +13,8 @@ export default function MyClientsPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/sessions').then(r => r.json()).then((sessions: Session[]) => {
+    fetch('/api/sessions').then(r => r.json()).then((data) => {
+      const sessions = asArray<Session>(data, 'sessions')
       // Extract unique clients
       const uniqueClients = new Map<string, ClientInfo>()
       sessions.forEach(s => {
@@ -22,7 +24,7 @@ export default function MyClientsPage() {
       })
       setClients(Array.from(uniqueClients.values()))
       setLoading(false)
-    })
+    }).catch(() => setLoading(false))
   }, [])
 
   return (
