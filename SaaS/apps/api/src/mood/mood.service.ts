@@ -21,14 +21,14 @@ export class MoodService {
         ...(user.role === Role.client ? {} : { sharedWithPractitioner: true }),
       },
       orderBy: { date: 'desc' },
-      take: 30,
+      take: query.days ?? 30,
     })
 
     return { entries }
   }
 
   async upsert(clientId: string, dto: CreateMoodEntryDto) {
-    const date = new Date(dto.date)
+    const date = dto.date ? new Date(dto.date) : new Date()
     date.setUTCHours(0, 0, 0, 0)
 
     const entry = await this.prisma.moodEntry.upsert({

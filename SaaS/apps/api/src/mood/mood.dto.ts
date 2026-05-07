@@ -5,12 +5,20 @@ export class MoodQueryDto {
   @IsOptional()
   @IsString()
   clientId?: string
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(365)
+  days?: number
 }
 
 export class CreateMoodEntryDto {
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
-  date!: Date
+  date?: Date
 
   @IsInt()
   @Min(1)

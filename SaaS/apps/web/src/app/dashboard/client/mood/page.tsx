@@ -20,6 +20,18 @@ const MOOD_LABELS: Record<number, string> = {
 
 interface MoodEntry { _id: string; date: string; score: number; emotions: string[]; note?: string; sharedWithPractitioner: boolean }
 
+function getMoodEntries(data: unknown): MoodEntry[] {
+  if (Array.isArray(data)) {
+    return data
+  }
+
+  if (data && typeof data === 'object' && Array.isArray((data as { entries?: unknown }).entries)) {
+    return (data as { entries: MoodEntry[] }).entries
+  }
+
+  return []
+}
+
 export default function MoodTrackerPage() {
   const [entries, setEntries] = useState<MoodEntry[]>([])
   const [score, setScore] = useState(5)
@@ -33,19 +45,31 @@ export default function MoodTrackerPage() {
 
   useEffect(() => {
     fetch('/api/mood?days=30')
-      .then((r) => r.json())
+      .then(async (r) => {
+        const data = await r.json()
+        if (!r.ok) {
+          throw new Error(data?.error ?? 'Failed to load mood entries')
+        }
+        return data
+      })
       .then((data) => {
-        setEntries(data)
+        const moodEntries = getMoodEntries(data)
+        setEntries(moodEntries)
         const today = new Date().toDateString()
-        const todayEntry = data.find((e: MoodEntry) => new Date(e.date).toDateString() === today)
+        const todayEntry = moodEntries.find((e) => new Date(e.date).toDateString() === today)
         if (todayEntry) {
           setTodayLogged(true)
           setScore(todayEntry.score)
-          setSelectedEmotions(todayEntry.emotions)
+          setSelectedEmotions(todayEntry.emotions ?? [])
           setNote(todayEntry.note || '')
           setShared(todayEntry.sharedWithPractitioner)
         }
         setLoading(false)
+      })
+      .catch((error) => {
+        setEntries([])
+        setLoading(false)
+        toast.error(error instanceof Error ? error.message : 'Failed to load mood entries')
       })
   }, [])
 
